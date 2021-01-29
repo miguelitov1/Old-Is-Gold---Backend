@@ -1,0 +1,44 @@
+RUTAS:
+
+USUARIO:
+-PUBLICAS
+api/v1/proyecto8/usuarios/registro
+api/v1/proyecto8/usuarios/activacion
+api/v1/proyecto8/usuarios/inicioSesion
+api/v1/proyecto8/usuarios/:idUsuario (borrarUsuarioPorId)
+api/v1/proyecto8/usuarios/:idUsuario/valoraciones (verValoracionesDeUsuarioPorId)
+-PRIVADAS
+api/v1/proyecto8/usuarios (obtenerUsuario - actualizarUsuario)
+api/v1/proyecto8/usuarios/perfil (obtenerPerfilDelUsuario)
+api/v1/proyecto8/usuarios/articulos (obtenerArticulosDelUsuario)
+api/v1/proyecto8/usuarios/valoraciones (obtenerValoracionesDelUsuario)
+api/v1/proyecto8/usuarios/articulos/:idArticulo (obtenerArticulosDelUsuarioPorId)
+api/v1/proyecto8/usuarios/favoritos (obtenerArticulosFavoritos)
+api/v1/proyecto8/usuario/chat --> SALA DE CHAT GENERAL. VER COMO SE HACE
+api/v1/proyecto8/usuario/chat/:idUsuario -->CHAT CON UN DETERMINADO USUARIO. VER COMO SE HACE
+
+ARTICULO:
+-PUBLICAS
+api/v1/proyecto8/articulos/:idArticulo (obtenerArticulosPorId)
+api/v1/proyecto8/articulos/:palabrasClaves/ (obtenerArticulosPorPalabraClave)
+api/v1/proyecto8/articulos/:categoria (obtenerArticulosPorCategoria)
+-PRIVADAS:
+api/v1/proyecto8/articulos (crearArticulo)
+api/v1/proyecto8/articulos/:idArticulo (borarArticulo actualizarArticulo)
+
+COMPRA-VENTA:
+-PRIVADAS:
+api/v1/proyecto8/compras/:idUsuario (obtenerArticulosCompradosPorUsuario)
+api/v1/proyecto8/compras/:idArticulo (valorarCompra confirmarVenta)
+api/v1/prpyecto/compras/ventas/:idUsuario (obtenerArticulosVendidosPorUsuario)
+
+ARTICULOS FAVORITOS:
+-PRIVADAS:
+api/v1/proyecto8/favoritos/:idUsuario (obtenerFavoritosPorUsuario)
+
+FOTOS:
+-PUBLICAS:
+api/v1/proyecto8/fotos/:idFoto (obtenerFoto)
+-PRIVADAS:
+api/v1/proyecto8/fotos (subirFoto)
+api/v1/proyecto8/fotos/idFoto (borrarFoto)
