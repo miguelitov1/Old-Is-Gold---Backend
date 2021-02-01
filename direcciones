@@ -13,7 +13,6 @@ api/v1/proyecto8/usuarios/perfil (obtenerPerfilDelUsuario)
 api/v1/proyecto8/usuarios/articulos (obtenerArticulosDelUsuario)
 api/v1/proyecto8/usuarios/valoraciones (obtenerValoracionesDelUsuario)
 api/v1/proyecto8/usuarios/articulos/:idArticulo (obtenerArticulosDelUsuarioPorId)
-api/v1/proyecto8/usuarios/favoritos (obtenerArticulosFavoritos)
 api/v1/proyecto8/usuario/chat --> SALA DE CHAT GENERAL. VER COMO SE HACE
 api/v1/proyecto8/usuario/chat/:idUsuario -->CHAT CON UN DETERMINADO USUARIO. VER COMO SE HACE
 

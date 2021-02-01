@@ -15,17 +15,21 @@ app.use(express.json());
 // app.use(cors());
 
 const rutasUsuario = require("./app/rutas/rutas-usuario");
-const rutasArticulos = require("./app/rutas/rutas-articulos");
-const rutasArticulosFav = require("./app/rutas/rutas-articulos-fav");
-const rutasCategorias = require("./app/rutas/rutas-categorias");
-const rutasCompras = require("./app/rutas/rutas-compras");
-const rutasFotos = require("./app/rutas/rutas-fotos");
+// const rutasArticulos = require("./app/rutas/rutas-articulos");
+// const rutasArticulosFav = require("./app/rutas/rutas-articulos-fav");
+// const rutasCompras = require("./app/rutas/rutas-compras");
+// const rutasFotos = require("./app/rutas/rutas-fotos");
 
-app.use("./api/v1/usuarios", rutasUsuario);
-app.use("./api/v1/articulos", rutasArticulos);
-app.use("./api/v1/articulosFav", rutasArticulosFav);
-app.use("./api/v1/categorias", rutasCategorias);
-app.use("./api/v1/compras", rutasCompras);
-app.use("./api/v1/Fotos", rutasFotos);
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "./access.log"),
+  { flags: "a" }
+);
+app.use(morgan("combined", { stream: accessLogStream }));
+
+app.use("/api/v1/proyecto8/usuarios", rutasUsuario);
+// app.use("./api/v1/proyecto8/articulos", rutasArticulos);
+// app.use("./api/v1/proyecto8/articulosFav", rutasArticulosFav);
+// app.use("./api/v1/proyecto8/compras", rutasCompras);
+// app.use("./api/v1/proyecto8/fotos", rutasFotos);
 
 module.exports = app;
