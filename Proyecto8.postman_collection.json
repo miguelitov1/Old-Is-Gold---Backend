@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "8645f526-aa9c-4d8a-bf74-5f81678d21e0",
+		"name": "Proyecto8",
+		"description": "Compraventa de tecnologia retro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Activar Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/activacion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"activacion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logaut",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"accessToken\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.globals.set(\"accessToken\",response.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"juanperez@yopmail.com\",\n    \"contrasenha\": \"12345678\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"juan\",\n    \"apellidos\": \"perez\",\n    \"email\": \"juanperez@yopmail.com\",\n    \"contrasenha\": \"12345678\",\n    \"repetirContrasenha\": \"12345678\",\n    \"nombreUsuario\": \"juanperez\",\n    \"localidad\": \"A Coruña\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/registro",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener perfil de usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"juan\",\n    \"apellidos\": \"perdddez\",\n    \"email\": \"juanperez@yopmail.com\",\n    \"contrasenha\": \"12345678\",\n    \"repetirContrasenha\": \"12345678\",\n    \"nombreUsuario\": \"juanperezz\",\n    \"localidad\": \"A Coruña\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/usuarios/actualizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"usuarios",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Articulos",
+			"item": [
+				{
+					"name": "Obtener articulos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/articulos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"articulos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Articulo por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/articulos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"articulos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publicar articulo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_categoria\": 1,\n    \"titulo\": \"Nintendo Gamecube\",\n    \"descripcion\": \"Nintendo 64 en excelente estado\",\n    \"localizacion\": \"A Coruña\",\n    \"precio\": 55\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/articulos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"articulos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar articulo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_categoria\":1,\n    \"titulo\":\"Nintendo\",\n    \"descripcion\":\"Nintendo buen estado\",\n    \"localizacion\":\"A Coruña\",\n    \"precio\": 5\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/articulos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"articulos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar articulo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/proyecto8/articulos/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"proyecto8",
+								"articulos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

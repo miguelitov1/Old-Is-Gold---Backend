@@ -27,10 +27,13 @@ async function crearUsuario(
 
 async function buscarUsuarioPorEmail(email) {
   const pool = await database();
-  const query = `SELECT usuarios.*, activacion_usuarios.fecha_verificacion AS verificadoEn
-  FROM usuarios
-  LEFT JOIN activacion_usuarios ON activacion_usuarios.id_usuario = usuarios.id
-  WHERE usuarios.email = ?`;
+  // const query = `SELECT usuarios.*, activacion_usuarios.fecha_verificacion AS verificadoEn
+  // FROM usuarios
+  // LEFT JOIN activacion_usuarios ON activacion_usuarios.id_usuario = usuarios.id
+  // WHERE usuarios.email = ?`;
+
+  const query = `SELECT * FROM usuarios WHERE email = ?`;
+
   const [usuario] = await pool.query(query, email);
 
   return usuario[0];
@@ -65,29 +68,67 @@ async function validarActivacion(code) {
   const verificadoEn = now.toISOString().substring(0, 19).replace("T", " ");
 
   const pool = await database();
-  const updateQuery = `UPDATE activacion_usuarios
+  const updateQuerry = `UPDATE activacion_usuarios
     SET fecha_verificacion = ?
     WHERE codigo_verificacion = ?
     AND fecha_verificacion IS NULL`;
-  const [validacion] = await pool.query(updateQuery, [verificadoEn, code]);
+  const [validacion] = await pool.query(updateQuerry, [verificadoEn, code]);
 
   return validacion.affectedRows === 1; //si es verdadero devuelve 1, si es falso devuelve 0
 }
 
 async function buscarUsuarioPorNombreUsuario(nombreUsuario) {
   const pool = await database();
-  const query = `SELECT usuarios.*, activacion_usuarios.fecha_verificacion AS verificadoEn
-  FROM usuarios
-  LEFT JOIN activacion_usuarios ON activacion_usuarios.id_usuario = usuarios.id
-  WHERE usuarios.nombreUsuario = ?`;
+  // const query = `SELECT usuarios.*, activacion_usuarios.fecha_verificacion AS verificadoEn
+  // FROM usuarios
+  // LEFT JOIN activacion_usuarios ON activacion_usuarios.id_usuario = usuarios.id
+  // WHERE usuarios.nombreUsuario = ?`;
+  const query = `SELECT * FROM usuarios WHERE nombreUsuario = ?`;
   const [usuario] = await pool.query(query, nombreUsuario);
 
   return usuario[0];
 }
 
+async function buscarUsuarioPorId(id) {
+  const pool = await database();
+  const query = "SELECT * FROM usuarios WHERE id = ?";
+  const [usuario] = await pool.query(query, id);
+
+  return usuario[0];
+}
+
+async function actualizarUsuarioPorId(data) {
+  const {
+    id,
+    nombre,
+    apellidos,
+    nombreUsuario,
+    email,
+    contrasenha,
+    localidad,
+  } = data;
+  const pool = await database();
+  const updateQuerry = `UPDATE usuarios
+  SET nombre = ?, apellidos = ?, nombreUsuario = ?, email = ?, contrasenha = ?, localidad = ?
+  WHERE id = ?`;
+  await pool.query(updateQuerry, [
+    nombre,
+    apellidos,
+    nombreUsuario,
+    email,
+    contrasenha,
+    localidad,
+    id,
+  ]);
+
+  return true;
+}
+
 module.exports = {
+  actualizarUsuarioPorId,
   agregarCodigoDeVerificacion,
   buscarUsuarioPorEmail,
+  buscarUsuarioPorId,
   buscarUsuarioPorNombreUsuario,
   borrarViejoCodigoDeVerificacion,
   crearUsuario,

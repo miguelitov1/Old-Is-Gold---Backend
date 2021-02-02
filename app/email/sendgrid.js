@@ -2,15 +2,15 @@
 
 const sendgrid = require("@sendgrid/mail");
 
-async function mandarEmailDeRegistro(nombre, email, codigoVerificacion) {
+async function enviarEmailDeRegistro(nombre, email, codigoVerificacion) {
   const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FORM } = process.env;
 
   const linkActivacion = `${HTTP_SERVER_DOMAIN}/api/v1/proyecto8/usuarios/activacion?codigo_verificacion=${codigoVerificacion}`;
   //   console.log("linkActivation", linkActivacion);
   sendgrid.setApiKey(SENDGRID_KEY);
   const contenidoEmail = {
-    from: SENDGRID_MAIL_FORM,
     to: email,
+    from: SENDGRID_MAIL_FORM,
     subject: "Bienvenido a Proyecto8",
     text: `Hola ${nombre}.\nBienvenido a Proyecto8, la plataforma numero 1 en compra-venta de tecnologia retro.\nPara continuar operando en nuestra web, es necesario que confirme su usuario ${linkActivacion}`,
     html: `<h1>Hola ${nombre}.</h1><p>Bienvenido a Proyecto8, la plataforma número 1 en compra-venta de tecnologia retro.</p><p>Para continuar operando en nuestra web, es necesario que confirme su usuario ${linkActivacion}</p>`,
@@ -26,7 +26,7 @@ async function mandarEmailDeRegistro(nombre, email, codigoVerificacion) {
     });
 }
 
-async function mandarEmailDeValidacionCorrecta(nombre, email, text, html) {
+async function enviarEmailDeValidacionCorrecta(nombre, email, text, html) {
   const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FORM } = process.env;
 
   sendgrid.setApiKey(SENDGRID_KEY);
@@ -41,4 +41,4 @@ async function mandarEmailDeValidacionCorrecta(nombre, email, text, html) {
   //   await sendgrid.send(contentEmail);
 }
 
-module.exports = { mandarEmailDeRegistro, mandarEmailDeValidacionCorrecta };
+module.exports = { enviarEmailDeRegistro, enviarEmailDeValidacionCorrecta };

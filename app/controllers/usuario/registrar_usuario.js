@@ -8,9 +8,9 @@ const {
   agregarCodigoDeVerificacion,
   buscarUsuarioPorEmail,
   buscarUsuarioPorNombreUsuario,
-} = require("../../repositories/repositorio-usuarios");
+} = require("../../repositorios/repositorio-usuarios");
 const crearErrorJson = require("../errores/crear-error-json");
-const { mandarEmailDeRegistro } = require("../../email/sendgrid");
+const { enviarEmailDeRegistro } = require("../../email/smtp");
 
 const schema = Joi.object().keys({
   nombre: Joi.string().alphanum().max(30).required(),
@@ -60,7 +60,7 @@ async function registrarUsuario(req, res) {
     );
 
     const codigoVerificacion = cryptoRandomString({ length: 64 });
-    await mandarEmailDeRegistro(nombre, email, codigoVerificacion);
+    // await enviarEmailDeRegistro(nombre, email, codigoVerificacion);
     await agregarCodigoDeVerificacion(id, codigoVerificacion);
 
     res

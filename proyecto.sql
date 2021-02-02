@@ -15,7 +15,6 @@ apellidos varchar(60) not null,
 contrasenha varchar(255) not null,
 localidad varchar(40),
 foto longblob,
-confirmacion boolean default 1,
 email varchar(60) unique not null,
 fecha timestamp default current_timestamp
 );
