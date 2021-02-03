@@ -2,38 +2,68 @@
 
 # ENDPOINTS
 
-## Aplicación
+## Usuarios
 
-- **GET** - [/events] - Obtener la lista de lugares misteriosos. ✅
-- **GET** - [/events/:idEvent] - Obtener la info de un lugar misterioso concreto. ✅
-- **GET** - [/events/:idEvent/comments] - Obtener los comentarios de un lugar concreto. ✅
-- **GET** - [/events/favourites/:idUser] - Obtener la lista de lugares favoritos. ✅ **CON TOKEN**
+- **GET** - [api/v1/proyecto8/usuarios/:idUsuario/valoraciones] -Ver valoraciones de un usuario por id.
 
-- **POST** - [/events] - Insertar un nuevo lugar misterioso. ✅ **CON TOKEN**
-- **POST** - [/events/:idEvent/comments] - Comentar un lugar misterioso. ✅ **CON TOKEN**
-- **POST** - [/events/:idEvent/votes] - Valorar un lugar misterioso. ✅ **CON TOKEN**
-- **POST** - [/events/:idEvent/favourites] - Añadir a favoritos un lugar misterioso. ✅ **CON TOKEN**
+- **GET** - [api/v1/proyecto8/usuarios/activacion] - Valida un usuario. ✅
 
-- **PUT** - [/events/:idEvent] - Editar un lugar misterioso. ✅ **CON TOKEN**
-- **PUT** - [/events/:idEvent/comments/:idComment] - Editar un comentario. ✅ **CON TOKEN**
-- **PUT** - [/events/:idEvent/votes/:idRating] - Editar una valoración. ✅ **CON TOKEN**
+- **GET** - [api/v1/proyecto8/usuarios/:idUsuario] - Obtener usuario por id. **CON TOKEN**✅
 
-- **DELETE** - [/events/:idEvent] - Eliminar un lugar misterioso. ✅ **CON TOKEN**
-- **DELETE** - [/events/:idEvent/photos/:idPhoto] - Eliminar una foto asignada a un lugar misterioso. ✅ **CON TOKEN**
-- **DELETE** - [/events/:idEvent/comments/:idComment] - Eliminar un comentario. ✅ **CON TOKEN**
-- **DELETE** - [/events/:idEvent/favourites] - Eliminar un lugar favorito. ✅ **CON TOKEN**
+- **GET** - [api/v1/proyecto8/usuarios/perfil] - Obtener perfil del usuario. **CON TOKEN**
 
-## Users
+- **GET** - [api/v1/proyecto8/usuarios/articulos] - Obtener articulos de usuario. ✅ **CON TOKEN**
 
-- **GET** - [/users/validate/:regCode] - Valida un usuario. ✅
-- **GET** - [/users/:idUser] - Obtener info de usuario. ✅ **CON TOKEN**
+- **GET** - [api/v1/proyecto8/usuarios/articulos/:idArticulo] - Obtener articulos de usuario por id. ✅
 
-- **POST** - [/users] - Crea un usuario pendiente de activar. ✅
-- **POST** - [/users/:idEvent] - Login de usuario. ✅
-- **POST** - [/users/recovery] - Recuperar contraseña de usuario. ✅
-- **POST** - [/users/reset] - Insertar nueva contraseña de usuario tras recuperación. ✅
+- **POST** - [api/v1/proyecto8/usuarios/subirImagen] - Subir foto de perfil.✅ **CON TOKEN**
 
-- **PUT** - [/users/:idUser] - Editar datos de usuario. ✅ **CON TOKEN**
-- **PUT** - [/users/:idUser/password] - Editar contraseña. ✅ **CON TOKEN**
+- **POST** - [api/v1/proyecto8/usuarios/inicioSesion] - Login de usuario. ✅
 
-- **DELETE** - [/users/:idUser] - Desactivar usuario. ✅ **CON TOKEN**
+- **POST** - [api/v1/proyecto8/usuarios/registro] - Crea un usuario pendiente de activar. ✅
+
+- **POST** - [api/v1/proyecto8/usuarios/recuperarContrasenha] - Recuperar contraseña de usuario.
+
+- **POST** - [api/v1/proyecto8/usuarios/nuevaContrasenha] - Insertar nueva contraseña de usuario tras recuperación.
+
+- **PUT** - [api/v1/proyecto8/usuarios] - Editar datos de usuario. ✅ **CON TOKEN**
+
+- **DELETE** - [api/v1/proyecto8/usuarios/:idUsuario] - Eliminar usuario. ✅ **CON TOKEN**
+
+## Articulos
+
+- **GET** - [api/v1/proyecto8/articulos/:idArticulo] - Obtener articulos por id. ✅
+
+- **GET** - [api/v1/proyecto8/articulos/:palabrasClaves] - Obtener articulos por categoria. ✅
+
+- **GET** - [api/v1/proyecto8/articulos/:palabrasClaves] - Obtener articulos por palabra clave.
+
+- **POST** - [api/v1/proyecto8/articulos/:idArticulo] - Crear articulo favorito. **CON TOKEN**
+
+- **POST** - [api/v1/proyecto8/articulos] - Crear articulo. ✅ **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/articulos] - Editar articulo. ✅ **CON TOKEN**
+
+- **DELETE** - [api/v1/proyecto8/articulos/:idArticulo] - Eliminar articulo por id. ✅ **CON TOKEN**
+
+## Articulos-Favoritos
+
+- **GET** - [api/v1/proyecto8/favoritos/:idUsuario] - Obtener articulos favoritos por usuario. **CON TOKEN**
+
+- **DELETE** - [api/v1/proyecto8/favoritos/:idArticuloFav] - Eliminar articulos favoritos por id. **CON TOKEN**
+
+## Compra-venta
+
+- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario] - Obtener articulos comprados-vendidos por usuario. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/compraVenta/:idArticulo] - Valorar compra - confirmar venta. **CON TOKEN**
+
+## Fotos
+
+- **GET** - [api/v1/proyecto8/fotos] - Obtener fotos para articulo.
+
+- **POST** - [api/v1/proyecto8/fotos] - Subir fotos para articulo. **CON TOKEN**
+
+- **DELETE** - [api/v1/proyecto8/fotos/:idFotos] - Borrar fotos por id. **CON TOKEN**
+
+<!-- --api/v1/proyecto8/usuario/chat -- SALA DE CHAT GENERAL. VER COMO SE HACE

@@ -26,7 +26,7 @@ async function crearArticulo(
 }
 async function verTodo() {
   const pool = await database();
-  const query = "SELECT * FROM articulos";
+  const query = "SELECT * FROM articulos WHERE confirmacionVenta = 0";
   const [articulos] = await pool.query(query);
 
   return articulos;
@@ -42,7 +42,8 @@ async function borrarPorId(id) {
 
 async function buscarPorId(id) {
   const pool = await database();
-  const query = "SELECT * FROM articulos WHERE id = ?";
+  const query =
+    "SELECT * FROM articulos WHERE id = ? AND confirmacionVenta = 0";
   const [articulo] = await pool.query(query, id);
   return articulo[0];
 }
@@ -73,7 +74,8 @@ async function modificarPorId(id, modificarArticulo) {
 
 async function buscarArticulosPorIdUsuario(id) {
   const pool = await database();
-  const query = "SELECT * FROM articulos WHERE id_usuario = ?";
+  const query =
+    "SELECT * FROM articulos WHERE id_usuario = ? AND confirmacionVenta = 0";
   const [articulos] = await pool.query(query, id);
 
   return articulos;

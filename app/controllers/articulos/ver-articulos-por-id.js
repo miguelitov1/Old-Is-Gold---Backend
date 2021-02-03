@@ -14,7 +14,7 @@ async function verArticuloPorId(req, res) {
     const articulo = await buscarPorId(parseInt(idArticulo));
 
     if (!articulo) {
-      const error = new Error("Articulo no disponible");
+      const error = new Error("Articulo no encontrado");
       error.status = 400;
       throw error;
     }
