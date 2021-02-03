@@ -11,9 +11,9 @@ async function crearUsuario(
   localidad
 ) {
   const pool = await database();
-  const insertQuerry =
+  const insertQuery =
     "INSERT INTO usuarios (nombre, apellidos, email, contrasenha, nombreUsuario, localidad) VALUES(?, ?, ?, ?, ?, ?)";
-  const [created] = await pool.query(insertQuerry, [
+  const [created] = await pool.query(insertQuery, [
     nombre,
     apellido,
     email,
@@ -48,8 +48,8 @@ async function agregarCodigoDeVerificacion(idUsuario, codigo) {
     fecha_creacion: creadoEn,
   };
   const pool = await database();
-  const insertQuerry = "INSERT INTO activacion_usuarios SET ?";
-  const [created] = await pool.query(insertQuerry, data);
+  const insertQuery = "INSERT INTO activacion_usuarios SET ?";
+  const [created] = await pool.query(insertQuery, data);
 
   return created.insertId;
 }
@@ -68,13 +68,23 @@ async function validarActivacion(code) {
   const verificadoEn = now.toISOString().substring(0, 19).replace("T", " ");
 
   const pool = await database();
-  const updateQuerry = `UPDATE activacion_usuarios
+  const updateQuery = `UPDATE activacion_usuarios
     SET fecha_verificacion = ?
     WHERE codigo_verificacion = ?
     AND fecha_verificacion IS NULL`;
-  const [validacion] = await pool.query(updateQuerry, [verificadoEn, code]);
+  const [validacion] = await pool.query(updateQuery, [verificadoEn, code]);
 
   return validacion.affectedRows === 1; //si es verdadero devuelve 1, si es falso devuelve 0
+}
+
+async function borrarUsuarioPorId(id) {
+  const pool = await database();
+  const query = "DELETE FROM activacion_usuarios WHERE id_usuario = ?";
+  await pool.query(query, id);
+  const queryUsuario = "DELETE FROM usuarios WHERE id = ?";
+  await pool.query(queryUsuario, id);
+
+  return true;
 }
 
 async function buscarUsuarioPorNombreUsuario(nombreUsuario) {
@@ -108,10 +118,10 @@ async function actualizarUsuarioPorId(data) {
     localidad,
   } = data;
   const pool = await database();
-  const updateQuerry = `UPDATE usuarios
+  const updateQuery = `UPDATE usuarios
   SET nombre = ?, apellidos = ?, nombreUsuario = ?, email = ?, contrasenha = ?, localidad = ?
   WHERE id = ?`;
-  await pool.query(updateQuerry, [
+  await pool.query(updateQuery, [
     nombre,
     apellidos,
     nombreUsuario,
@@ -124,13 +134,32 @@ async function actualizarUsuarioPorId(data) {
   return true;
 }
 
+async function buscarImagenDePerilDeUsuario(id) {
+  const pool = await database();
+  const query = "SELECT foto FROM usuarios WHERE id = ?";
+  const [usuario] = await pool.query(query, id);
+
+  return usuario[0];
+}
+
+async function subirImagenDePerfilDeUsuario(id, imagen) {
+  const pool = await database();
+  const updateQuery = "UPDATE usuarios SET foto = ? WHERE id = ?";
+  await pool.query(updateQuery, [imagen, id]);
+
+  return true;
+}
+
 module.exports = {
   actualizarUsuarioPorId,
   agregarCodigoDeVerificacion,
+  buscarImagenDePerilDeUsuario,
+  borrarUsuarioPorId,
   buscarUsuarioPorEmail,
   buscarUsuarioPorId,
   buscarUsuarioPorNombreUsuario,
   borrarViejoCodigoDeVerificacion,
   crearUsuario,
+  subirImagenDePerfilDeUsuario,
   validarActivacion,
 };

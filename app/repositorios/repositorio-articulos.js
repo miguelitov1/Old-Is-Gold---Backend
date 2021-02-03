@@ -11,9 +11,9 @@ async function crearArticulo(
   precio
 ) {
   const pool = await database();
-  const insertQuerry =
+  const insertQuery =
     "INSERT INTO articulos (id_usuario, id_categoria, titulo, descripcion, localizacion, precio) VALUES(?, ?, ?, ?, ?, ?)";
-  const [created] = await pool.query(insertQuerry, [
+  const [created] = await pool.query(insertQuery, [
     id_usuario,
     id_categoria,
     titulo,
@@ -70,6 +70,14 @@ async function modificarPorId(id, modificarArticulo) {
   ]);
   return true;
 }
+
+async function buscarArticulosPorIdUsuario(id) {
+  const pool = await database();
+  const query = "SELECT * FROM articulos WHERE id_usuario = ?";
+  const [articulos] = await pool.query(query, id);
+
+  return articulos;
+}
 // async function findReviewsByCarId(carId) {
 //   const pool = await database();
 //   const query = `SELECT * FROM cars
@@ -90,6 +98,7 @@ async function modificarPorId(id, modificarArticulo) {
 // }
 
 module.exports = {
+  buscarArticulosPorIdUsuario,
   crearArticulo,
   verTodo,
   borrarPorId,

@@ -10,11 +10,15 @@ const {
   buscarUsuarioPorNombreUsuario,
 } = require("../../repositorios/repositorio-usuarios");
 const crearErrorJson = require("../errores/crear-error-json");
-const { enviarEmailDeRegistro } = require("../../email/smtp");
+const { enviarEmailDeRegistro } = require("../../email/sendgrid");
 
 const schema = Joi.object().keys({
-  nombre: Joi.string().alphanum().max(30).required(),
-  apellidos: Joi.string().alphanum().max(30).required(),
+  nombre: Joi.string()
+    .regex(/^[ A-Za-zÁÉÍÓÚáéíóúÑñ]+$/)
+    .required(),
+  apellidos: Joi.string()
+    .regex(/^[ A-Za-zÁÉÍÓÚáéíóúÑñ]+$/)
+    .required(),
   email: Joi.string().email().required(),
   contrasenha: Joi.string().min(8).max(20).required(),
   repetirContrasenha: Joi.ref("contrasenha"),
@@ -60,7 +64,7 @@ async function registrarUsuario(req, res) {
     );
 
     const codigoVerificacion = cryptoRandomString({ length: 64 });
-    // await enviarEmailDeRegistro(nombre, email, codigoVerificacion);
+    await enviarEmailDeRegistro(nombre, email, codigoVerificacion);
     await agregarCodigoDeVerificacion(id, codigoVerificacion);
 
     res

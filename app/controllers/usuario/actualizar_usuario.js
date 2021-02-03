@@ -67,12 +67,12 @@ async function actualizarUsuario(req, res) {
       actualizarContrasenha = passwordHash;
     }
 
-    // if (email != usuarioPorId.email) {
-    //   const codigoDeVerificacion = cryptoRandomString({ length: 64 });
-    //   await enviarEmailDeRegistro(nombre, email, codigoDeVerificacion);
-    //   await borrarViejoCodigoDeVerificacion(id);
-    //   await agregarCodigoDeVerificacion(id, codigoDeVerificacion);
-    // }
+    if (email != usuarioPorId.email) {
+      const codigoDeVerificacion = cryptoRandomString({ length: 64 });
+      await enviarEmailDeRegistro(nombre, email, codigoDeVerificacion);
+      await borrarViejoCodigoDeVerificacion(id);
+      await agregarCodigoDeVerificacion(id, codigoDeVerificacion);
+    }
 
     await actualizarUsuarioPorId({
       id,

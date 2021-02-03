@@ -19,7 +19,7 @@ async function loginUsuario(req, res) {
     const { email, contrasenha } = req.body;
 
     const usuario = await buscarUsuarioPorEmail(email);
-    if (!usuario /*|| !usuario.verificadoEn*/) {
+    if (!usuario || !usuario.verificadoEn) {
       const error = new Error(
         "El usuario o la contraseña no son correctos, o su cuenta aún sigue sin verificar"
       );

@@ -13,7 +13,7 @@ const router = express.Router();
 
 //Publicas
 router.route("/").get((req, res) => getArticulos(req, res));
-router.route("/:id").get((req, res) => verArticuloPorId(req, res));
+router.route("/:idArticulo").get((req, res) => verArticuloPorId(req, res));
 
 //Privadas
 router

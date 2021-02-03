@@ -10,8 +10,8 @@ async function verArticuloPorId(req, res) {
   try {
     const { idArticulo } = req.params;
 
-    await schema.validateAsync(id);
-    const articulo = await buscarPorId(parseInt(id));
+    await schema.validateAsync(idArticulo);
+    const articulo = await buscarPorId(parseInt(idArticulo));
 
     if (!articulo) {
       const error = new Error("Articulo no disponible");

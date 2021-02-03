@@ -6,7 +6,7 @@ const crearErrorJson = require("../errores/crear-error-json");
 
 const schema = Joi.object().keys({
   id_categoria: Joi.number().positive().required(),
-  titulo: Joi.string().min(3).max(20).required(),
+  titulo: Joi.string().min(3).max(60).required(),
   descripcion: Joi.string().min(5).max(4000).required(),
   localizacion: Joi.string().min(3).max(50).required(),
   precio: Joi.number().positive().required(),
