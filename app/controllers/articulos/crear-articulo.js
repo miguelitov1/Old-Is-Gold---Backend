@@ -1,7 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const { crearArticulo } = require("../../repositorios/repositorio-articulos");
+const repositorioArticulos = require("../../repositorios/repositorio-articulos");
 const crearErrorJson = require("../errores/crear-error-json");
 
 const schema = Joi.object().keys({
@@ -12,7 +12,7 @@ const schema = Joi.object().keys({
   precio: Joi.number().positive().required(),
 });
 
-async function registrarArticulo(req, res) {
+async function crearArticulo(req, res) {
   try {
     await schema.validateAsync(req.body);
 
@@ -26,7 +26,7 @@ async function registrarArticulo(req, res) {
       precio,
     } = req.body;
 
-    const id = await crearArticulo(
+    const id = await repositorioArticulos.crearArticulo(
       id_usuario,
       id_categoria,
       titulo,
@@ -41,4 +41,4 @@ async function registrarArticulo(req, res) {
   }
 }
 
-module.exports = registrarArticulo;
+module.exports = crearArticulo;

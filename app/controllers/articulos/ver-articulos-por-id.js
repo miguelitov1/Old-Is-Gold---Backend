@@ -1,7 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const { buscarPorId } = require("../../repositorios/repositorio-articulos");
+const repositorioArticulos = require("../../repositorios/repositorio-articulos");
 const crearErrorJson = require("../errores/crear-error-json");
 
 const schema = Joi.number().positive().required();
@@ -11,7 +11,9 @@ async function verArticuloPorId(req, res) {
     const { idArticulo } = req.params;
 
     await schema.validateAsync(idArticulo);
-    const articulo = await buscarPorId(parseInt(idArticulo));
+    const articulo = await repositorioArticulos.buscarArticuloPorId(
+      parseInt(idArticulo)
+    );
 
     if (!articulo) {
       const error = new Error("Articulo no encontrado");

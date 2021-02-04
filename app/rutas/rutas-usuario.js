@@ -5,7 +5,7 @@ const validarAuth = require("../middlewares/validar-auth");
 
 const activarUsuario = require("../controllers/usuario/activar_usuario");
 const registrarUsuario = require("../controllers/usuario/registrar_usuario");
-const loginUsuario = require("../controllers/usuario/login_usuario");
+const iniciarSesionUsuario = require("../controllers/usuario/login_usuario");
 const obtenerPerfilDeUsuario = require("../controllers/usuario/obtener_perfil_usuario");
 const actualizarUsuario = require("../controllers/usuario/actualizar_usuario");
 const borrarUsuarioPorId = require("../controllers/usuario/borrar_usuario");
@@ -17,7 +17,10 @@ const router = express.Router();
 //Publicas
 router.route("/registro").post((req, res) => registrarUsuario(req, res));
 router.route("/activacion").get((req, res) => activarUsuario(req, res));
-router.route("/login").post((req, res) => loginUsuario(req, res));
+router.route("/login").post((req, res) => iniciarSesionUsuario(req, res));
+router
+  .route("/recuperarContrasenha")
+  .post((req, res) => recuperarContrasenha(req, res));
 
 //Privadas
 router

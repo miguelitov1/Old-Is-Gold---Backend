@@ -3,25 +3,44 @@
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {
-  buscarUsuarioPorEmail,
-} = require("../../repositorios/repositorio-usuarios");
+
+const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
+const { enviarEmailDeRegistro } = require("../../email/sendgrid");
 const crearErrorJson = require("../errores/crear-error-json");
+const cryptoRandomString = require("crypto-random-string");
 
 const schema = Joi.object().keys({
   email: Joi.string().email().required(),
   contrasenha: Joi.string().min(8).max(30).required(),
 });
 
-async function loginUsuario(req, res) {
+async function iniciarSesionUsuario(req, res) {
   try {
     await schema.validateAsync(req.body);
     const { email, contrasenha } = req.body;
 
-    const usuario = await buscarUsuarioPorEmail(email);
-    if (!usuario || !usuario.verificadoEn) {
+    const usuario = await repositorioUsuarios.buscarUsuarioPorEmail(email);
+
+    if (!usuario) {
+      const error = new Error("El usuario o la contraseña no son correctos");
+      error.status = 403;
+      throw error;
+    }
+
+    if (!usuario.verificadoEn) {
       const error = new Error(
-        "El usuario o la contraseña no son correctos, o su cuenta aún sigue sin verificar"
+        "El usuario no ha sido verificado aún, hemos enviado un mail nuevamente a su cuenta para verificar su usuario"
+      );
+      const codigoDeVerificacion = cryptoRandomString({ length: 64 });
+      await enviarEmailDeRegistro(
+        usuario.nombre,
+        usuario.email,
+        codigoDeVerificacion
+      );
+      await repositorioUsuarios.borrarViejoCodigoDeVerificacion(usuario.id);
+      await repositorioUsuarios.agregarCodigoDeVerificacion(
+        usuario.id,
+        codigoDeVerificacion
       );
       error.status = 403;
       throw error;
@@ -31,10 +50,9 @@ async function loginUsuario(req, res) {
       contrasenha,
       usuario.contrasenha
     );
+
     if (!validarContrasenha) {
-      const error = new Error(
-        "El usuario o la contraseña no son correctos, o su cuenta aún sigue sin verificar"
-      );
+      const error = new Error("El usuario o la contraseña no son correctos");
       error.status = 403;
       throw error;
     }
@@ -62,4 +80,4 @@ async function loginUsuario(req, res) {
   }
 }
 
-module.exports = loginUsuario;
+module.exports = iniciarSesionUsuario;

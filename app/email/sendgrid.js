@@ -2,14 +2,17 @@
 
 const sgMail = require("@sendgrid/mail");
 
-const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
-
-sgMail.setApiKey(SENDGRID_KEY);
-
 async function enviarEmailDeRegistro(nombre, email, codigoVerificacion) {
   try {
+    const {
+      HTTP_SERVER_DOMAIN,
+      SENDGRID_KEY,
+      SENDGRID_MAIL_FROM,
+    } = process.env;
+
+    sgMail.setApiKey(SENDGRID_KEY);
+
     const linkActivacion = `${HTTP_SERVER_DOMAIN}/api/v1/proyecto8/usuarios/activacion?codigo_verificacion=${codigoVerificacion}`;
-    //   console.log("linkActivation", linkActivacion);
 
     const contenidoEmail = {
       to: email,
@@ -25,12 +28,34 @@ async function enviarEmailDeRegistro(nombre, email, codigoVerificacion) {
   }
 }
 
+async function enviarMailRecuperarContrasenha(
+  nombre,
+  email,
+  codigoVerificacion
+) {
+  const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
+
+  sendgrid.setApiKey(SENDGRID_KEY);
+
+  const linkRecuperacionContraseña = `${HTTP_SERVER_DOMAIN}/api/v1/proyecto8/usuarios/recuperarContrasenha?codigoVerificcion=${codigoVerificacion}`;
+
+  const contenidoEmail = {
+    to: email,
+    from: SENDGRID_MAIL_FROM,
+    subject: "Recuperar contraseña",
+    text: `Hola ${nombre}.\nEntra al siguiente link para recuperar su cuenta con una contraseña nueva ${linkRecuperacionContraseña}`,
+    html: `<h1>Hola ${nombre}.</h1><p>Entra al siguiente link para recuperar su cuenta con una contraseña nueva ${linkRecuperacionContraseña}</p>`,
+  };
+
+  await sgMail.send(contenidoEmail);
+}
+
 async function enviarEmailDeValidacionCorrecta(nombre, email, text, html) {
-  const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FORM } = process.env;
+  const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
 
   sendgrid.setApiKey(SENDGRID_KEY);
   const contentEmail = {
-    from: SENDGRID_MAIL_FORM,
+    from: SENDGRID_MAIL_FROM,
     to: email,
     subject: "Tu cuenta se ha activado correctamente",
     text: `Hola ${nombre}.\n¡Tu cuenta se ha activado correctamente!`,
@@ -40,4 +65,8 @@ async function enviarEmailDeValidacionCorrecta(nombre, email, text, html) {
   //   await sendgrid.send(contentEmail);
 }
 
-module.exports = { enviarEmailDeRegistro, enviarEmailDeValidacionCorrecta };
+module.exports = {
+  enviarEmailDeRegistro,
+  enviarMailRecuperarContrasenha,
+  enviarEmailDeValidacionCorrecta,
+};

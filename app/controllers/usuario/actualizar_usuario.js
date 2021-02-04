@@ -3,16 +3,9 @@
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const cryptoRandomString = require("crypto-random-string");
-const {
-  buscarUsuarioPorEmail,
-  actualizarUsuarioPorId,
-  buscarUsuarioPorId,
-  agregarCodigoDeVerificacion,
-  borrarViejoCodigoDeVerificacion,
-  buscarUsuarioPorNombreUsuario,
-} = require("../../repositorios/repositorio-usuarios");
+const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
+const { enviarEmailDeRegistro } = require("../../email/sendgrid");
 const crearErrorJson = require("../errores/crear-error-json");
-const { enviarEmailDeRegistro } = require("../../email/smtp");
 
 const schema = Joi.object().keys({
   nombre: Joi.string().alphanum().max(30).required(),
@@ -31,7 +24,8 @@ const schemaPassword = Joi.object().keys({
 
 async function actualizarUsuario(req, res) {
   try {
-    const { id } = req.auth;
+    const idUsuario = req.auth.id;
+
     await schema.validateAsync(req.body);
     const {
       nombre,
@@ -42,19 +36,20 @@ async function actualizarUsuario(req, res) {
       nombreUsuario,
       localidad,
     } = req.body;
-    const usuarioPorId = buscarUsuarioPorId(id);
-    const usuarioEmail = await buscarUsuarioPorEmail(email);
-    const usuarioNombreUsuario = await buscarUsuarioPorNombreUsuario(
+
+    const usuarioPorId = repositorioUsuarios.buscarUsuarioPorId(idUsuario);
+    const usuarioEmail = await repositorioUsuarios.buscarUsuarioPorEmail(email);
+    const usuarioNombreUsuario = await repositorioUsuarios.buscarUsuarioPorNombreUsuario(
       nombreUsuario
     );
 
-    if (usuarioEmail && usuarioEmail.id !== id) {
+    if (usuarioEmail && usuarioEmail.id !== idUsuario) {
       const error = new Error("Ya existe un usuario con ese email");
       error.status = 409;
       throw error;
     }
 
-    if (usuarioNombreUsuario && usuarioNombreUsuario.id !== id) {
+    if (usuarioNombreUsuario && usuarioNombreUsuario.id !== idUsuario) {
       const error = new Error("Ya existe un usuario con ese nombre de usuario");
       error.status = 409;
       throw error;
@@ -70,12 +65,15 @@ async function actualizarUsuario(req, res) {
     if (email != usuarioPorId.email) {
       const codigoDeVerificacion = cryptoRandomString({ length: 64 });
       await enviarEmailDeRegistro(nombre, email, codigoDeVerificacion);
-      await borrarViejoCodigoDeVerificacion(id);
-      await agregarCodigoDeVerificacion(id, codigoDeVerificacion);
+      await repositorioUsuarios.borrarViejoCodigoDeVerificacion(idUsuario);
+      await repositorioUsuarios.agregarCodigoDeVerificacion(
+        idUsuario,
+        codigoDeVerificacion
+      );
     }
 
-    await actualizarUsuarioPorId({
-      id,
+    await repositorioUsuarios.actualizarUsuarioPorId({
+      idUsuario,
       nombre,
       apellidos,
       email,
@@ -84,7 +82,7 @@ async function actualizarUsuario(req, res) {
       localidad,
     });
 
-    res.send({ id, nombre, apellidos, email, nombreUsuario, localidad });
+    res.send({ idUsuario, nombre, apellidos, email, nombreUsuario, localidad });
   } catch (err) {
     crearErrorJson(err, res);
   }

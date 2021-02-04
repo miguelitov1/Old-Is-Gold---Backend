@@ -3,14 +3,9 @@
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const cryptoRandomString = require("crypto-random-string");
-const {
-  crearUsuario,
-  agregarCodigoDeVerificacion,
-  buscarUsuarioPorEmail,
-  buscarUsuarioPorNombreUsuario,
-} = require("../../repositorios/repositorio-usuarios");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
 const { enviarEmailDeRegistro } = require("../../email/sendgrid");
+const crearErrorJson = require("../errores/crear-error-json");
 
 const schema = Joi.object().keys({
   nombre: Joi.string()
@@ -38,23 +33,26 @@ async function registrarUsuario(req, res) {
       nombreUsuario,
       localidad,
     } = req.body;
-    const existeEmail = await buscarUsuarioPorEmail(email);
+
+    const existeEmail = await repositorioUsuarios.buscarUsuarioPorEmail(email);
     if (existeEmail) {
       const error = new Error("Ya existe un usuario con ese email");
       error.status = 409;
       throw error;
     }
-    const existeNombreUsuario = await buscarUsuarioPorNombreUsuario(
+
+    const existeNombreUsuario = await repositorioUsuarios.buscarUsuarioPorNombreUsuario(
       nombreUsuario
     );
     if (existeNombreUsuario) {
-      const error = new Error("El nombre de usuario ya esta en uso");
+      const error = new Error("El nombre de usuario ya está en uso");
       error.status = 409;
       throw error;
     }
+
     const passwordHash = await bcrypt.hash(contrasenha, 12);
 
-    const id = await crearUsuario(
+    const id = await repositorioUsuarios.crearUsuario(
       nombre,
       apellidos,
       email,
@@ -65,7 +63,10 @@ async function registrarUsuario(req, res) {
 
     const codigoVerificacion = cryptoRandomString({ length: 64 });
     await enviarEmailDeRegistro(nombre, email, codigoVerificacion);
-    await agregarCodigoDeVerificacion(id, codigoVerificacion);
+    await repositorioUsuarios.agregarCodigoDeVerificacion(
+      id,
+      codigoVerificacion
+    );
 
     res
       .status(201)

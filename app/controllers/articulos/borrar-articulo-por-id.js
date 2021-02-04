@@ -1,11 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const {
-  verTodo,
-  borrarPorId,
-  buscarPorId,
-} = require("../../repositorios/repositorio-articulos");
+const repositorioArticulos = require("../../repositorios/repositorio-articulos");
 const crearErrorJson = require("../errores/crear-error-json");
 
 const schemaId = Joi.number().positive().required();
@@ -16,7 +12,9 @@ async function borrarArticuloPorId(req, res) {
     const id_usuario = req.auth.id;
 
     await schemaId.validateAsync(idArticulo);
-    const articulo = await buscarPorId(parseInt(idArticulo));
+    const articulo = await repositorioArticulos.buscarArticuloPorId(
+      parseInt(idArticulo)
+    );
 
     if (!articulo) {
       const error = new Error("Artículo no encontrado");
@@ -30,9 +28,9 @@ async function borrarArticuloPorId(req, res) {
       throw error;
     }
 
-    await borrarPorId(parseInt(idArticulo));
+    await repositorioArticulos.borrarArticuloPorId(parseInt(idArticulo));
 
-    const articulos = await verTodo();
+    const articulos = await repositorioArticulos.verTodosLosArticulos();
 
     res.status(200).send(articulos);
   } catch (err) {

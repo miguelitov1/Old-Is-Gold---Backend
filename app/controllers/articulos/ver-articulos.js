@@ -1,10 +1,10 @@
 "use strict";
-const { verTodo } = require("../../repositorios/repositorio-articulos");
+const repositorioArticulos = require("../../repositorios/repositorio-articulos");
 const crearErrorJson = require("../errores/crear-error-json");
 
-async function getArticulos(req, res) {
+async function verTodosLosArticulos(req, res) {
   try {
-    const articulos = await verTodo();
+    const articulos = await repositorioArticulos.verTodosLosArticulos();
 
     res.send(articulos);
   } catch (err) {
@@ -12,4 +12,4 @@ async function getArticulos(req, res) {
   }
 }
 
-module.exports = getArticulos;
+module.exports = verTodosLosArticulos;

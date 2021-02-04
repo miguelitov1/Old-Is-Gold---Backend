@@ -1,9 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const {
-  validarActivacion,
-} = require("../../repositorios/repositorio-usuarios");
+const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
 const crearErrorJson = require("../errores/crear-error-json");
 
 const schema = Joi.string().min(64).max(64).required();
@@ -19,7 +17,9 @@ async function activarUsuario(req, res) {
     }
     await schema.validateAsync(codigoVerificacion);
 
-    const estaActivado = await validarActivacion(codigoVerificacion);
+    const estaActivado = await repositorioUsuarios.activarUsuario(
+      codigoVerificacion
+    );
 
     if (!estaActivado) {
       res.send("Cuenta no creada. El codigo de verificacion ha expirado");

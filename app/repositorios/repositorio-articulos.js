@@ -24,7 +24,7 @@ async function crearArticulo(
 
   return created.insertId;
 }
-async function verTodo() {
+async function verTodosLosArticulos() {
   const pool = await database();
   const query = "SELECT * FROM articulos WHERE confirmacionVenta = 0";
   const [articulos] = await pool.query(query);
@@ -32,7 +32,7 @@ async function verTodo() {
   return articulos;
 }
 
-async function borrarPorId(id) {
+async function borrarArticuloPorId(id) {
   const pool = await database();
   const deleteQuery = "DELETE FROM articulos WHERE id = ?";
   await pool.query(deleteQuery, id);
@@ -40,7 +40,7 @@ async function borrarPorId(id) {
   return true;
 }
 
-async function buscarPorId(id) {
+async function buscarArticuloPorId(id) {
   const pool = await database();
   const query =
     "SELECT * FROM articulos WHERE id = ? AND confirmacionVenta = 0";
@@ -48,7 +48,7 @@ async function buscarPorId(id) {
   return articulo[0];
 }
 
-async function modificarPorId(id, modificarArticulo) {
+async function modificarArticuloPorId(id, modificarArticulo) {
   const {
     id_usuario,
     id_categoria,
@@ -102,8 +102,8 @@ async function buscarArticulosPorIdUsuario(id) {
 module.exports = {
   buscarArticulosPorIdUsuario,
   crearArticulo,
-  verTodo,
-  borrarPorId,
-  buscarPorId,
-  modificarPorId,
+  verTodosLosArticulos,
+  borrarArticuloPorId,
+  buscarArticuloPorId,
+  modificarArticuloPorId,
 };
