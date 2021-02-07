@@ -42,6 +42,12 @@
 
 - **POST** - [api/v1/proyecto8/articulos] - Crear articulo. ✅ **CON TOKEN**
 
+- **PUT** - [api/v1/proyecto8/articulos/:idArticulo/reservarArticulo] - Reservar artículo. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/articulos/:idArticulo/borrarRecerba] - Borrar reserva de artículo. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/articulos/:idArticulo/confirmarVenta] - Confirmar Venta. **CON TOKEN**
+
 - **PUT** - [api/v1/proyecto8/articulos] - Editar articulo. ✅ **CON TOKEN**
 
 - **DELETE** - [api/v1/proyecto8/articulos/:idArticulo] - Eliminar articulo por id. ✅ **CON TOKEN**
@@ -54,9 +60,11 @@
 
 ## Compra-venta
 
-- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario] - Obtener articulos comprados-vendidos por usuario. **CON TOKEN**
+- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosComprados] - Obtener articulos comprados por usuario. **CON TOKEN**
 
-- **PUT** - [api/v1/proyecto8/compraVenta/:idArticulo] - Valorar compra - confirmar venta. **CON TOKEN**
+- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosVendidos] - Obtener articulos vendidos por usuario. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/compraVenta/:idArticulo] - Valorar compra. **CON TOKEN**
 
 ## Fotos
 

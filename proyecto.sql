@@ -1,7 +1,6 @@
 -- Creacion base datos
 
-create database proyecto8 collate='utf8mb4_spanish_ci';
-alter database proyecto8 character set = "utf8mb4";
+create database proyecto8 collate='utf8mb4_spanish_ci' character set = "utf8mb4";
 
 -- Seleccion base datos
 use proyecto8;
@@ -32,8 +31,10 @@ titulo varchar(60) not null,
 descripcion longtext not null,
 localizacion varchar(400) not null,
 precio decimal(8,2) not null,
+id_usuario_comprador int unsigned,
 confirmacionVenta boolean default 0,
 fecha timestamp default current_timestamp,
+nro_visitas int unsigned default 0,
 constraint articulo_usuarioid_fk foreign key (id_usuario)
 	references usuarios(id) on delete cascade,
 constraint articulo_categoriaid_fk foreign key (id_categoria)
@@ -42,10 +43,11 @@ constraint articulo_categoriaid_fk foreign key (id_categoria)
  
 create table compras(
 id_articulo int unsigned not null,
-id_usuario int unsigned not null,
+id_comprador int unsigned not null,
 fecha timestamp default current_timestamp,
 valoracion tinyint,
-comentarioValoracion longtext,
+comentarioValoracion varchar (255),
+respuestaVendedor varchar (255) DEFAULT NULL,
 primary key(id_articulo, id_usuario),
 constraint compra_articuloid_fk foreign key (id_articulo)
 	references articulos(id) on delete cascade,
@@ -73,10 +75,26 @@ constraint fotoarticulo_articuloid_fk foreign key (id_articulo)
 );
 
 CREATE TABLE activacion_usuarios (
-id int NOT NULL AUTO_INCREMENT,
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 id_usuario int NOT NULL,
 codigo_verificacion char(64) NOT NULL,
 fecha_creacion datetime NOT NULL,
-fecha_verificacion datetime DEFAULT NULL,
-  PRIMARY KEY (id)
+fecha_verificacion datetime DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE mensajeria (
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+id_emisor INT UNSIGNED NOT NULL,
+id_receptor INT UNSIGNED NOT NULL,
+id_articulo INT UNSIGNED NOT NULL,
+mensaje VARCHAR (255) NOT NULL,
+fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+constraint mensajeria_idarticulo_fk foreign key (id_articulo)
+	references articulos(id) on delete cascade
+)
+
+
+
+
+
+

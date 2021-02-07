@@ -1,6 +1,7 @@
 "use strict";
-const repositorioArticulos = require("../../repositorios/repositorio-articulos");
-const crearErrorJson = require("../errores/crear-error-json");
+
+const repositorioArticulos = require("../../repositorios/repositorio_articulos");
+const crearErrorJson = require("../errores/crear_error_json");
 
 async function verTodosLosArticulos(req, res) {
   try {

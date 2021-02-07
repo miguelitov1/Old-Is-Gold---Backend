@@ -1,8 +1,8 @@
 "use strict";
 
 const Joi = require("joi");
-const repositorioArticulos = require("../../repositorios/repositorio-articulos");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioArticulos = require("../../repositorios/repositorio_articulos");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schema = Joi.number().positive().required();
 
@@ -20,6 +20,8 @@ async function verArticuloPorId(req, res) {
       error.status = 400;
       throw error;
     }
+
+    await repositorioArticulos.aumentarContadorVisitas(idArticulo);
 
     res.send(articulo);
   } catch (err) {

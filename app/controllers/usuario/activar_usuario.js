@@ -1,8 +1,8 @@
 "use strict";
 
 const Joi = require("joi");
-const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioUsuarios = require("../../repositorios/repositorio_usuarios");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schema = Joi.string().min(64).max(64).required();
 

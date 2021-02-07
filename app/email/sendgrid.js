@@ -50,6 +50,73 @@ async function enviarMailRecuperarContrasenha(
   await sgMail.send(contenidoEmail);
 }
 
+async function enviarEmailDeReserva(nombre, email, titulo, idArticulo) {
+  try {
+    const {
+      HTTP_SERVER_DOMAIN,
+      SENDGRID_KEY,
+      SENDGRID_MAIL_FROM,
+    } = process.env;
+
+    sgMail.setApiKey(SENDGRID_KEY);
+
+    const linkConfirmacion = `${HTTP_SERVER_DOMAIN}/api/v1/proyecto8/articulos/${idArticulo}/confirmarVenta`;
+    const linkNegacion = `${HTTP_SERVER_DOMAIN}/api/v1/proyecto8/articulos/${idArticulo}/borrarReserva`;
+
+    const contenidoEmail = {
+      to: email,
+      from: SENDGRID_MAIL_FROM,
+      subject: "¡Han reservado uno de tus productos!",
+      text: `Hola ${nombre}.\n¡Enhorabuena! Alguien está interesado en ${titulo} que has publicado en nuestra pagina.\nPara confirmar la venta has click en el siguiente enlace ${linkConfirmacion}.\nPara negar la reserva has click en el siguiente enlace ${linkNegacion}.\n O puedes gestionar la reserva accediendo a tus productos a través de la pagina`,
+      html: `<h1>Hola ${nombre}.</h1><p>¡Enhorabuena! Alguien está interesado en ${titulo} que has publicado en nuestra pagina.</p><p>Para confirmar la venta has click en el siguiente enlace ${linkConfirmacion}</p><p>\nPara negar la reserva has click en el siguiente enlace ${linkNegacion}.</p><p>O puedes gestionar la reserva accediendo a tus productos a través de la pagina</p>`,
+    };
+
+    await sgMail.send(contenidoEmail);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function enviarEmailDeCancelacionReserva(nombre, email, titulo) {
+  try {
+    const { SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
+
+    sgMail.setApiKey(SENDGRID_KEY);
+
+    const contenidoEmail = {
+      to: email,
+      from: SENDGRID_MAIL_FROM,
+      subject: "Lo sentimos...un usuario cancelo tu reserva :(",
+      text: `Hola ${nombre}.\nLo sentimos, el vendedor del articulo ${titulo} ha cancelado tu reserva.\nPuedes vovler a contactar con el para saber su motivo.`,
+      html: `<h1>Hola ${nombre}.</h1><p>Lo sentimos, el vendedor del articulo ${titulo} ha cancelado tu reserva..</p><p>Puedes vovler a contactar con el para saber su motivo.</p>`,
+    };
+
+    await sgMail.send(contenidoEmail);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function enviarMailDeConfirmacionVenta(nombre, email, titulo) {
+  try {
+    const { SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
+
+    sgMail.setApiKey(SENDGRID_KEY);
+
+    const contenidoEmail = {
+      to: email,
+      from: SENDGRID_MAIL_FROM,
+      subject: "¡Han sido el comprador del articulo que estabas deseando!",
+      text: `Hola ${nombre}.\nEl vendedor de ${titulo} ha aceptado tu reserva.\nPuedes ponerte en contacto con el para terminar de concretar la compra.\n¡No olvides calificar al vendedor luego de terminar la transacción!`,
+      html: `<h1>Hola ${nombre}.</h1><p>El vendedor de ${titulo} ha aceptado tu reserva.</p><p>Puedes ponerte en contacto con el para terminar de concretar la compra.</p><p>¡No olvides calificar al vendedor luego de terminar la transacción!</p>`,
+    };
+
+    await sgMail.send(contenidoEmail);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function enviarEmailDeValidacionCorrecta(nombre, email, text, html) {
   const { HTTP_SERVER_DOMAIN, SENDGRID_KEY, SENDGRID_MAIL_FROM } = process.env;
 
@@ -67,6 +134,9 @@ async function enviarEmailDeValidacionCorrecta(nombre, email, text, html) {
 
 module.exports = {
   enviarEmailDeRegistro,
+  enviarEmailDeReserva,
+  enviarEmailDeCancelacionReserva,
+  enviarMailDeConfirmacionVenta,
   enviarMailRecuperarContrasenha,
   enviarEmailDeValidacionCorrecta,
 };

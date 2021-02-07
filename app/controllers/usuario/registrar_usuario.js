@@ -3,9 +3,9 @@
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const cryptoRandomString = require("crypto-random-string");
-const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
+const repositorioUsuarios = require("../../repositorios/repositorio_usuarios");
 const { enviarEmailDeRegistro } = require("../../email/sendgrid");
-const crearErrorJson = require("../errores/crear-error-json");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schema = Joi.object().keys({
   nombre: Joi.string()

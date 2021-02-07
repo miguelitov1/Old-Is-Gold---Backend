@@ -1,8 +1,8 @@
 "use strict";
 
 const Joi = require("joi");
-const repositorioArticulos = require("../../repositorios/repositorio-articulos");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioArticulos = require("../../repositorios/repositorio_articulos");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schemaId = Joi.number().positive().required();
 
