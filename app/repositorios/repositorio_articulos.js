@@ -148,14 +148,14 @@ async function verTodosLosArticulos() {
 
 module.exports = {
   aumentarContadorVisitas,
-  confirmarVentaArticuloPorId,
-  crearArticulo,
-  crearArticuloFav,
   borrarArticuloPorId,
   borrarReservaArticuloPorId,
   buscarArticuloPorId,
   buscarArticulosPorCategoria,
   buscarArticulosPorIdUsuario,
+  confirmarVentaArticuloPorId,
+  crearArticulo,
+  crearArticuloFav,
   modificarArticuloPorId,
   reservarArticuloPorId,
   verArticulosPorPalabrasClaves,

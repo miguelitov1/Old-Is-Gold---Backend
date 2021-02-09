@@ -32,7 +32,7 @@ async function mostrarChats(idUsuario) {
 }
 
 module.exports = {
-  mostrarChats,
-  insertarNuevoMensaje,
   buscarMensajesPorArticulo,
+  insertarNuevoMensaje,
+  mostrarChats,
 };

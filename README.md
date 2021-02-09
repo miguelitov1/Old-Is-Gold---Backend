@@ -60,6 +60,7 @@
 
 ## Compra-venta
 
+<<<<<<< HEAD
 - **GET** - [api/v1/proyecto8/compraVenta/ventas/compras/idUsuario] - Obtener articulos comprados por usuario. **CON TOKEN**
 
 - **GET** - [api/v1/proyecto8/compraVenta/ventas/ventas/idUsuario] - Obtener articulos vendidos por usuario. **CON TOKEN**
@@ -69,6 +70,13 @@
 - **PUT** - [api/v1/proyecto8/ventas/valoracion/:idArticulo] - Valorar compra. **CON TOKEN**
 
 - **PUT** - [api/v1/proyecto8/ventas/respuesta/:idArticulo] - Responder valoracion. **CON TOKEN**
+=======
+- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosComprados] - Obtener articulos comprados por usuario. **CON TOKEN**
+
+- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosVendidos] - Obtener articulos vendidos por usuario. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/compraVenta/:idArticulo] - Valorar compra. **CON TOKEN**
+>>>>>>> bf1ba17528f4b2271a3f36f60d0571ddbfefbbe2
 
 ## Fotos
 

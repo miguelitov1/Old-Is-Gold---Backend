@@ -2,20 +2,6 @@
 
 const database = require("../infrastructure/database");
 
-async function crearValoracion(
-  idArticulo,
-  idComprador,
-  valoracion,
-  comentario
-) {
-  const pool = await database();
-  console.log(idArticulo, idComprador, valoracion, comentario);
-  const query = `UPDATE compras SET valoracion = ?, comentarioValoracion = ? WHERE id_articulo = ${idArticulo} AND id_comprador = ${idComprador}`;
-  const [created] = await pool.query(query, [valoracion, comentario]);
-
-  return created.insertId;
-}
-
 async function agregarRespuestaVendedor(idArticulo, idComprador, comentario) {
   const pool = await database();
   const query = `UPDATE compras SET respuestaVendedor = ? WHERE id_articulo = ${idArticulo} AND id_comprador = ${idComprador}`;
@@ -47,6 +33,20 @@ async function buscarIdVendedorPorIdArticulo(idArticulo) {
   const [valoracion] = await pool.query(query, idArticulo);
 
   return valoracion[0].id_usuario;
+}
+
+async function crearValoracion(
+  idArticulo,
+  idComprador,
+  valoracion,
+  comentario
+) {
+  const pool = await database();
+  console.log(idArticulo, idComprador, valoracion, comentario);
+  const query = `UPDATE compras SET valoracion = ?, comentarioValoracion = ? WHERE id_articulo = ${idArticulo} AND id_comprador = ${idComprador}`;
+  const [created] = await pool.query(query, [valoracion, comentario]);
+
+  return created.insertId;
 }
 
 async function obtenerCantidadDeValoraciones(idVendedor) {
@@ -84,11 +84,11 @@ async function obtenerVentasPorIdUsuario(id) {
 }
 
 module.exports = {
-  crearValoracion,
   agregarRespuestaVendedor,
   buscarValoracionesPorIdVendedor,
   buscarValoracionPorIdArticulo,
   buscarIdVendedorPorIdArticulo,
+  crearValoracion,
   obtenerCantidadDeValoraciones,
   obtenerComprasPorIdUsuario,
   obtenerPromedioValoracion,

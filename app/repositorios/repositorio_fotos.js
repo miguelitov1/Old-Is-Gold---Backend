@@ -36,8 +36,8 @@ async function subirImagenDeArticulo(idArticulo, imagen) {
 }
 
 module.exports = {
-  subirImagenDeArticulo,
-  obtenerFotosArticulo,
   borrarFotoPorId,
   buscarUsuarioPorIdFoto,
+  obtenerFotosArticulo,
+  subirImagenDeArticulo,
 };
