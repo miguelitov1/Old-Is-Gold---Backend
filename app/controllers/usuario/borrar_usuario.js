@@ -1,17 +1,19 @@
 "use strict";
 
 const Joi = require("joi");
-const repositorioUsuario = require("../../repositorios/repositorio-usuarios");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioUsuario = require("../../repositorios/repositorio_usuarios");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schema = Joi.number().positive();
 
 async function borrarUsuarioPorId(req, res) {
   try {
-    const { id } = req.params;
-    const idUsuario = req.auth.id;
-    const usuario = await repositorioUsuario.buscarUsuarioPorId(parseInt(id));
-    await schema.validateAsync(id);
+    const { idUsuario } = req.params;
+    const idUsuarioAuth = req.auth.id;
+    const usuario = await repositorioUsuario.buscarUsuarioPorId(
+      parseInt(idUsuario)
+    );
+    await schema.validateAsync(idUsuario);
 
     if (!usuario) {
       const error = new Error("Usuario no existente");
@@ -19,12 +21,14 @@ async function borrarUsuarioPorId(req, res) {
       throw error;
     }
 
-    if (usuario.id !== idUsuario /* && req.auth.role !== 'admin'*/) {
+    if (usuario.id !== idUsuarioAuth /* && req.auth.role !== 'admin'*/) {
       const error = new Error("No tienes permiso para realizar esta accion");
       error.status = 403;
       throw error;
     }
-    const reviews = await repositorioUsuario.borrarUsuarioPorId(id);
+    const reviews = await repositorioUsuario.borrarUsuarioPorId(idUsuario);
+
+    //tendria que borrar el token aqui, porque sino el usuario puede serguir haciendo cosas privadas.
 
     res.status(204).send();
   } catch (err) {

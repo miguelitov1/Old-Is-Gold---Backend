@@ -1,15 +1,15 @@
 "use strict";
 
 const Joi = require("joi");
-const repositorioArticulos = require("../../repositorios/repositorio-articulos");
-const crearErrorJson = require("../errores/crear-error-json");
+const repositorioArticulos = require("../../repositorios/repositorio_articulos");
+const crearErrorJson = require("../errores/crear_error_json");
 
 const schemaId = Joi.number().positive().required();
 const schemaIdUsuario = Joi.number().positive().required();
 
 const schema = Joi.object().keys({
   id_categoria: Joi.number().positive().required(),
-  titulo: Joi.string().alphanum().min(3).max(20).required(),
+  titulo: Joi.string().min(3).max(60).required(),
   descripcion: Joi.string().min(5).max(4000).required(),
   localizacion: Joi.string().min(3).max(50).required(),
   precio: Joi.number().required(),

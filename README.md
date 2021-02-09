@@ -54,24 +54,41 @@
 
 ## Articulos-Favoritos
 
-- **GET** - [api/v1/proyecto8/favoritos/:idUsuario] - Obtener articulos favoritos por usuario. **CON TOKEN**
+- **GET** - [api/v1/proyecto8/favoritos/] - Obtener articulos favoritos por usuario. **CON TOKEN**
 
-- **DELETE** - [api/v1/proyecto8/favoritos/:idArticuloFav] - Eliminar articulos favoritos por id. **CON TOKEN**
+- **DELETE** - [api/v1/proyecto8/favoritos/:idArticulo] - Eliminar articulos favoritos por id. **CON TOKEN**
 
 ## Compra-venta
 
-- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosComprados] - Obtener articulos comprados por usuario. **CON TOKEN**
+- **GET** - [api/v1/proyecto8/compraVenta/ventas/compras/idUsuario] - Obtener articulos comprados por usuario. **CON TOKEN**
 
-- **GET** - [api/v1/proyecto8/compraVenta/:idUsuario/articulosVendidos] - Obtener articulos vendidos por usuario. **CON TOKEN**
+- **GET** - [api/v1/proyecto8/compraVenta/ventas/ventas/idUsuario] - Obtener articulos vendidos por usuario. **CON TOKEN**
 
-- **PUT** - [api/v1/proyecto8/compraVenta/:idArticulo] - Valorar compra. **CON TOKEN**
+- **PUT** - [api/v1/proyecto8/ventas/verValoraciones/:idUsuario] - Mostrar valoraciones usuario. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/ventas/valoracion/:idArticulo] - Valorar compra. **CON TOKEN**
+
+- **PUT** - [api/v1/proyecto8/ventas/respuesta/:idArticulo] - Responder valoracion. **CON TOKEN**
 
 ## Fotos
 
-- **GET** - [api/v1/proyecto8/fotos] - Obtener fotos para articulo.
+- **GET** - [api/v1/proyecto8/fotos/idArticulo] - Obtener fotos para articulo.
 
-- **POST** - [api/v1/proyecto8/fotos] - Subir fotos para articulo. **CON TOKEN**
+- **POST** - [api/v1/proyecto8/fotos/subirImagen/:idArticulo] - subir foto por id de articulo **CON TOKEN**
 
-- **DELETE** - [api/v1/proyecto8/fotos/:idFotos] - Borrar fotos por id. **CON TOKEN**
+- **DELETE** - [api/v1/proyecto8/fotos/borrarImagen/:idArticulo] - Borrar fotos por id de articulo. **CON TOKEN**
 
-<!-- --api/v1/proyecto8/usuario/chat -- SALA DE CHAT GENERAL. VER COMO SE HACE
+## Mensajeria
+
+- **GET** - [api/v1/proyecto8/mensajes] - Mostrar chats iniciados **CON TOKEN**
+
+- **GET** - [api/v1/proyecto8/mensajes//:idArticulo/:idVendedor/:idComprador] - Mostrar mensajes entre dos usuarios **CON TOKEN**
+
+- **POST** - [api/v1/proyecto8//:idArticulo/:idVendedor/:idComprador] - Poner un mensaje nuevo en la conversacion **CON TOKEN**
+
+<!--
+.put((req, res) => confirmarVentaArticuloPorId(
+
+  put  borrarReservaArticuloPorId
+
+  put  reservarArticuloPorId -->

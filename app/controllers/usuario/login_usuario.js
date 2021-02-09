@@ -4,9 +4,9 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const repositorioUsuarios = require("../../repositorios/repositorio-usuarios");
+const repositorioUsuarios = require("../../repositorios/repositorio_usuarios");
 const { enviarEmailDeRegistro } = require("../../email/sendgrid");
-const crearErrorJson = require("../errores/crear-error-json");
+const crearErrorJson = require("../errores/crear_error_json");
 const cryptoRandomString = require("crypto-random-string");
 
 const schema = Joi.object().keys({

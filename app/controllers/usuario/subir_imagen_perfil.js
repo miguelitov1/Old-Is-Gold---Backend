@@ -1,17 +1,17 @@
 "use strict";
 
 const fileUpload = require("express-fileupload");
-const crearErrorJson = require("../errores/crear-error-json");
+const crearErrorJson = require("../errores/crear_error_json");
 const path = require("path");
 const fs = require("fs");
 
-const repositorioUsuario = require("../../repositorios/repositorio-usuarios");
+const repositorioUsuario = require("../../repositorios/repositorio_usuarios");
 
 const validarExtensiones = [".jpeg", ".jpg", ".pgn"];
 
 async function subirImagenDePerfil(req, res) {
   try {
-    const { id } = req.auth;
+    const idUsuario = req.auth.id;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       const error = new Error("No se ha cargado ningun archivo");
@@ -34,26 +34,28 @@ async function subirImagenDePerfil(req, res) {
     }
 
     const { HTTP_SERVER_DOMAIN, PATH_USER_IMAGE } = process.env;
-    const usuario = await repositorioUsuario.buscarImagenDePerilDeUsuario(id);
+    const fotoUsuario = await repositorioUsuario.buscarImagenDePerilDeUsuario(
+      idUsuario
+    );
     const pathProfileImageFolder = `${__dirname}/../../../public/${PATH_USER_IMAGE}`;
 
-    if (usuario.foto) {
-      await fs.unlink(`${pathProfileImageFolder}/${usuario.foto}`, () => {
+    if (fotoUsuario) {
+      await fs.unlink(`${pathProfileImageFolder}/${fotoUsuario}`, () => {
         console.log("Se ha borrado la imagen de perfil correctamente");
       });
     }
 
-    const pathImage = `${pathProfileImageFolder}/${id}${extension}`;
+    const pathImage = `${pathProfileImageFolder}/${idUsuario}${extension}`;
     // Movemos la image a la ruta final /public/images/profiles/id.png
     porfileImage.mv(pathImage, async function (err) {
       if (err) return res.status(500).send(err);
       await repositorioUsuario.subirImagenDePerfilDeUsuario(
-        id,
-        `${id}${extension}`
+        idUsuario,
+        `${idUsuario}${extension}`
       );
 
       res.send({
-        url: `${HTTP_SERVER_DOMAIN}/${PATH_USER_IMAGE}/${id}${extension}`,
+        url: `${HTTP_SERVER_DOMAIN}/${PATH_USER_IMAGE}/${idUsuario}${extension}`,
       });
     });
   } catch (err) {
