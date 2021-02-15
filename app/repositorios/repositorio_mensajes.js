@@ -23,9 +23,9 @@ async function insertarNuevoMensaje(idArticulo, idEmisor, idReceptor, mensaje) {
 
 async function mostrarChats(idUsuario) {
   const pool = await database();
-  const query = `SELECT articulos.titulo FROM articulos
+  const query = `SELECT articulos.titulo, articulos.id_usuario FROM articulos
   JOIN mensajeria ON articulos.id = mensajeria.id_articulo
-  WHERE mensajeria.id_emisor = ${idUsuario} OR mensajeria.id_receptor = ${idUsuario} GROUP BY articulos.titulo`;
+  WHERE mensajeria.id_emisor = ${idUsuario} OR mensajeria.id_receptor = ${idUsuario} GROUP BY articulos.id`;
   const [chats] = await pool.query(query);
 
   return chats;

@@ -2,10 +2,10 @@
 
 const database = require("../infrastructure/database");
 
-async function borrarFotoPorId(idArticulo) {
+async function borrarFotoPorId(idFoto) {
   const pool = await database();
-  const deleteQuery = "DELETE FROM fotos_articulos WHERE id_articulo = ?";
-  const [foto] = await pool.query(deleteQuery, idArticulo);
+  const deleteQuery = "DELETE FROM fotos_articulos WHERE id_foto = ?";
+  const [foto] = await pool.query(deleteQuery, idFoto);
 
   return foto;
 }

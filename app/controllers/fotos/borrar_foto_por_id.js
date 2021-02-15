@@ -6,7 +6,7 @@ const crearErrorJson = require("../errores/crear_error_json");
 
 const schemaId = Joi.number().positive().required();
 
-async function borrarArticuloPorId(req, res) {
+async function borrarFotoPorId(req, res) {
   try {
     const { idArticulo } = req.params;
     const id_usuario = req.auth.id;
@@ -36,4 +36,4 @@ async function borrarArticuloPorId(req, res) {
   }
 }
 
-module.exports = borrarArticuloPorId;
+module.exports = borrarFotoPorId;
