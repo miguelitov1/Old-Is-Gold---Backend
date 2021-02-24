@@ -1242,3 +1242,7 @@
 ::1 - - [10/Feb/2021:12:04:07 +0000] "GET /api/v1/proyecto8/articulos HTTP/1.1" 200 798 "-" "PostmanRuntime/7.26.8"
 ::1 - - [10/Feb/2021:12:04:21 +0000] "GET /api/v1/proyecto8/articulos/4 HTTP/1.1" 200 271 "-" "PostmanRuntime/7.26.8"
 ::1 - - [10/Feb/2021:12:04:25 +0000] "GET /api/v1/proyecto8/articulos HTTP/1.1" 200 798 "-" "PostmanRuntime/7.26.8"
+::1 - - [16/Feb/2021:16:58:25 +0000] "POST /api/v1/proyecto8/usuarios/login HTTP/1.1" 200 260 "-" "PostmanRuntime/7.26.8"
+::1 - - [16/Feb/2021:16:59:27 +0000] "GET /api/v1/proyecto8/ventas/ventas/3 HTTP/1.1" 200 2381 "-" "PostmanRuntime/7.26.8"
+::1 - - [16/Feb/2021:16:59:53 +0000] "GET /api/v1/proyecto8/ventas/ventas/3 HTTP/1.1" 200 2381 "-" "PostmanRuntime/7.26.8"
+::1 - - [16/Feb/2021:17:01:00 +0000] "GET /api/v1/got/ HTTP/1.1" 404 150 "-" "PostmanRuntime/7.26.8"
