@@ -1,0 +1,65 @@
+body {
+  background-color: #e7e4e4;
+}
+h1,
+p {
+  text-align: center;
+}
+.menu-busqueda {
+  background-color: #a79792;
+  display: flex;
+  height: 40px;
+}
+.menu-busqueda input {
+  border-radius: 5px;
+  border-color: none;
+}
+.menu-busqueda a {
+  text-decoration: none;
+  color: black;
+}
+
+#menu li {
+  list-style: none;
+}
+
+.img-logo {
+  border-radius: 100px;
+  margin: 5px;
+}
+
+.form-register {
+  background-color: #f2f1f1;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  margin: 50px;
+  border-radius: 5px;
+}
+.form-register input {
+  font-size: 20px;
+  margin: 5px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid;
+}
+.form-register div button {
+  border-radius: 5px;
+  width: 300px;
+  border: none;
+  font-size: 18px;
+  height: 50px;
+}
+.buttons {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+.button-activate {
+  background-color: #a8d3c6;
+}
+.button-no-activate {
+  background-color: none;
+  color: #a8d3c6;
+}
