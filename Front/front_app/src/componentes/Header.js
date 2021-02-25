@@ -1,12 +1,16 @@
+//rfc
+
 import React from "react";
+import "./Header.css";
 
 export const Header = () => {
   return (
     <header className="container">
       <img src="logo.jpg" alt="imgPerfil" />
-      <img src="lupa.png" alt="lupa" />
-      <form>
-        <input type="text" placeholder="Buscar..."></input>
+
+      <form className="container2">
+        <img className="lupa" src="lupa.png" alt="lupa" />
+        <input type="text" placeholder="¿Que estás buscando?"></input>
       </form>
 
       <img src="menu.png" alt="menu" />
