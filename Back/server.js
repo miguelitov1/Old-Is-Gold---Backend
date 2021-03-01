@@ -2,7 +2,7 @@
 
 require("dotenv").config();
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
@@ -13,7 +13,7 @@ const app = express();
 app.use(fileUpload());
 app.use(express.static("public"));
 app.use(express.json()); //sirve para tomar los datos json del postman
-// app.use(cors());
+app.use(cors());
 
 const rutasArticulos = require("./app/rutas/rutas_articulos");
 const rutasArticulosFav = require("./app/rutas/rutas_favoritos");

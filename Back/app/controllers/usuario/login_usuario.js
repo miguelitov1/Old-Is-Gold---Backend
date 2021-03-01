@@ -74,7 +74,7 @@ async function iniciarSesionUsuario(req, res) {
       expiresIn: jwtTokenExpiration,
     };
 
-    res.send(responde);
+    res.status(200).send(responde);
   } catch (err) {
     crearErrorJson(err, res);
   }
