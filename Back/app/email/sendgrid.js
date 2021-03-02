@@ -1,8 +1,9 @@
 "use strict";
 
 const sgMail = require("@sendgrid/mail");
+const crearErrorJson = require("../controllers/errores/crear_error_json");
 
-async function enviarEmailDeRegistro(nombre, email, codigoVerificacion) {
+async function enviarEmailDeRegistro(nombre, email, codigoVerificacion, res) {
   try {
     const {
       HTTP_SERVER_DOMAIN,
@@ -24,7 +25,7 @@ async function enviarEmailDeRegistro(nombre, email, codigoVerificacion) {
 
     await sgMail.send(contenidoEmail);
   } catch (error) {
-    console.log(error);
+    crearErrorJson(error, res);
   }
 }
 

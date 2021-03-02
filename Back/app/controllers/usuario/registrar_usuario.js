@@ -62,7 +62,7 @@ async function registrarUsuario(req, res) {
     );
 
     const codigoVerificacion = cryptoRandomString({ length: 64 });
-    await enviarEmailDeRegistro(nombre, email, codigoVerificacion);
+    await enviarEmailDeRegistro(nombre, email, codigoVerificacion, res);
     await repositorioUsuarios.agregarCodigoDeVerificacion(
       id,
       codigoVerificacion

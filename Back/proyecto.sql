@@ -48,10 +48,10 @@ fecha timestamp default current_timestamp,
 valoracion tinyint,
 comentarioValoracion varchar (255),
 respuestaVendedor varchar (255) DEFAULT NULL,
-primary key(id_articulo, id_usuario),
+primary key(id_articulo, id_comprador),
 constraint compra_articuloid_fk foreign key (id_articulo)
 	references articulos(id) on delete cascade,
-constraint compra_usuarioid_fk foreign key (id_usuario)
+constraint compra_usuarioid_fk foreign key (id_comprador)
 	references usuarios(id) on delete cascade
 );
 
