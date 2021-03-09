@@ -59,7 +59,7 @@ async function iniciarSesionUsuario(req, res) {
 
     const secret = process.env.JWT_SECRET;
     const { id, nombre, nombreUsuario, localidad } = usuario;
-    const jwtTokenExpiration = "30m";
+    const jwtTokenExpiration = "30d";
     const payload = {
       id,
       nombre,
