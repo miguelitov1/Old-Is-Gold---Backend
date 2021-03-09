@@ -35,7 +35,7 @@ async function buscarUsuarioPorId(req, res) {
         email,
         ...informacionUsuario
       } = usuario;
-      res.send({ ...informacionUsuario, imagen });
+      res.status(200).send({ ...informacionUsuario, imagen });
     }
   } catch (err) {
     crearErrorJson(err, res);

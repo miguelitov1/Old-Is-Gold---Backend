@@ -7,7 +7,7 @@ async function verTodosLosArticulos(req, res) {
   try {
     const articulos = await repositorioArticulos.verTodosLosArticulos();
 
-    res.send(articulos);
+    res.status(200).send(articulos);
   } catch (err) {
     crearErrorJson(err, res);
   }

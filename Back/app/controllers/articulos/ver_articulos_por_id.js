@@ -23,7 +23,7 @@ async function verArticuloPorId(req, res) {
 
     await repositorioArticulos.aumentarContadorVisitas(idArticulo);
 
-    res.send(articulo);
+    res.status(200).send(articulo);
   } catch (err) {
     crearErrorJson(err, res);
   }

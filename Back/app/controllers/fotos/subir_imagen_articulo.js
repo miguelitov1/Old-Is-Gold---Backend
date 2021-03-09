@@ -1,5 +1,5 @@
 "use strict";
-
+const { v4: uuidv4 } = require("uuid");
 const Joi = require("joi");
 const fileUpload = require("express-fileupload");
 const crear_error_json = require("../errores/crear_error_json");
@@ -9,9 +9,12 @@ const fs = require("fs");
 const repositorioFotos = require("../../repositorios/repositorio_fotos");
 const repositorioArticulos = require("../../repositorios/repositorio_articulos");
 
-const schema = Joi.number().positive().required();
+const schema = Joi.object({
+  idArticulo: Joi.number().positive().required(),
+  slot: Joi.string().valid("1", "2", "3", "4", "5"),
+});
 
-const validarExtensiones = [".jpeg", ".jpg", ".pgn"];
+const validarExtensiones = [".jpeg", ".jpg", ".png"];
 
 async function subirImagenDeArticulo(req, res) {
   try {
@@ -19,74 +22,56 @@ async function subirImagenDeArticulo(req, res) {
     //const articulosUsuario = repositorioArticulos.buscarArticulosPorIdUsuario(idUsuario);
 
     const { idArticulo } = req.params;
-    await schema.validateAsync(idArticulo);
+    const { slot } = req.body;
+
+    await schema.validateAsync({ idArticulo, slot });
 
     const articulo = await repositorioArticulos.buscarArticuloPorId(idArticulo);
+
+    if (!articulo) {
+      const error = new Error("El articulo no existe");
+      error.status = 400;
+      throw error;
+    }
+
     if (articulo.id_usuario !== idUsuario) {
       const error = new Error("El usuario no es el propietario del articulo");
       error.status = 400;
       throw error;
     }
-    if (!req.files || Object.keys(req.files).length === 0) {
+    if (!req.files || !req.files.imagenArticulo) {
       const error = new Error("No se ha cargado ningun archivo");
       error.status = 400;
       throw error;
     }
 
-    const fotosArticuloActuales = await repositorioFotos.obtenerFotosArticulo(
-      idArticulo
-    );
+    const { imagenArticulo } = req.files;
 
-    /* for (const photo of Object.values(req.files)) {
-              console.log(photo);
-            } */
-    const numeroFotosArticuloASubir = 5 - fotosArticuloActuales.length;
+    const extension = path.extname(imagenArticulo.name);
 
-    if (numeroFotosArticuloASubir === 0) {
-      const error = new Error("No puede subir mas de cinco fotos");
+    if (!validarExtensiones.includes(extension)) {
+      const error = new Error("Formato no valido");
       error.status = 400;
       throw error;
     }
 
-    for (let i = 0; i < numeroFotosArticuloASubir; i++) {
-      const imagenArticulo = req.files.imagenArticulo[i];
+    const { HTTP_SERVER_DOMAIN, PATH_ARTICULO_IMAGE } = process.env;
 
-      const extension = path.extname(imagenArticulo.name);
+    const pathArticleImageFolder = `${__dirname}/../../../public/${PATH_ARTICULO_IMAGE}`;
 
-      if (!validarExtensiones.includes(extension)) {
-        const error = new Error("Formato no valido");
-        error.status = 400;
-        throw error;
-      }
+    const randomUuid = uuidv4();
+    const pathImage = `${pathArticleImageFolder}/${idArticulo}_${randomUuid}${extension}`;
+    imagenArticulo.mv(pathImage, async function (err) {
+      if (err) return res.status(500).send(err);
 
-      const { HTTP_SERVER_DOMAIN, PATH_ARTICULO_IMAGE } = process.env;
+      await repositorioFotos.subirImagenDeArticulo(
+        idArticulo,
+        slot,
+        `${idArticulo}_${randomUuid}${extension}`
+      );
+    });
 
-      const pathArticleImageFolder = `${__dirname}/../../../public/${PATH_ARTICULO_IMAGE}`;
-
-      // if (fotoArticulo) {
-      //     await fs.unlink(`${pathArticleImageFolder}/${fotoArticulo}`, () => {
-      //         console.log("Se ha borrado la imagen del articulo correctamente");
-      //     });
-      //     await repositorioFotos.borrarFotoPorId(idArticulo);
-      // }
-
-      const pathImage = `${pathArticleImageFolder}/${idArticulo}_${i}${extension}`;
-      // Movemos la image a la ruta final /public/images/profiles/id.png
-      imagenArticulo.mv(pathImage, async function (err) {
-        if (err) return res.status(500).send(err);
-        await repositorioFotos.subirImagenDeArticulo(
-          idArticulo,
-          `${idArticulo}_${i}${extension}`
-        );
-
-        // res.send({
-        //     url: `${HTTP_SERVER_DOMAIN}/${PATH_ARTICULO_IMAGE}/${idArticulo}_${i}${extension}`,
-        // });
-      });
-
-      //res.send({response:'Imagenes subidas'});
-    }
-    res.send({ response: "Imagenes subidas, máximo numero de imagenes = 5" });
+    res.send({ response: "Imagenes subidas" });
   } catch (err) {
     crear_error_json(err, res);
   }
