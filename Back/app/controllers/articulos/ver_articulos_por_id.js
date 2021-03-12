@@ -21,6 +21,10 @@ async function verArticuloPorId(req, res) {
       throw error;
     }
 
+    // console.log(articulo.id_usuario);
+    // if (articulo.id_usuario !== idUsuario) {
+    //   await repositorioArticulos.aumentarContadorVisitas(idArticulo);
+    // }
     await repositorioArticulos.aumentarContadorVisitas(idArticulo);
 
     res.status(200).send(articulo);

@@ -27,12 +27,12 @@ router
   .get((req, res) => mostrarValoracionesUsuario(req, res));
 
 router
-  .route("/compras/:idUsuario/")
+  .route("/compras")
   .all(validarAuth)
   .get((req, res) => buscarComnprasPorUsuario(req, res));
 
 router
-  .route("/ventas/:idUsuario")
+  .route("/ventas")
   .all(validarAuth)
   .get((req, res) => buscarVentasPorUsuario(req, res));
 

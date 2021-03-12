@@ -13,7 +13,7 @@ nombre varchar(30) not null,
 apellidos varchar(60) not null,
 contrasenha varchar(255) not null,
 localidad varchar(40),
-foto longblob,
+foto varchar(60) null,
 email varchar(60) unique not null,
 fecha timestamp default current_timestamp
 );
@@ -35,6 +35,11 @@ id_usuario_comprador int unsigned,
 confirmacionVenta boolean default 0,
 fecha timestamp default current_timestamp,
 nro_visitas int unsigned default 0,
+foto1 VARCHAR(120) DEFAULT NULL,
+foto2 VARCHAR(120) DEFAULT NULL,
+foto3 VARCHAR(120) DEFAULT NULL,
+foto4 VARCHAR(120) DEFAULT NULL,
+foto5 VARCHAR(120) DEFAULT NULL,
 constraint articulo_usuarioid_fk foreign key (id_usuario)
 	references usuarios(id) on delete cascade,
 constraint articulo_categoriaid_fk foreign key (id_categoria)

@@ -4,19 +4,13 @@ const Joi = require("joi");
 const repositorioVentas = require("../../repositorios/repositorio_ventas");
 const crearErrorJson = require("../errores/crear_error_json");
 
-const schema = Joi.number().positive().required();
+// const schema = Joi.number().positive().required();
 
 async function buscarVentasPorUsuario(req, res) {
   try {
-    const idUsuarioAuth = req.auth.id;
-    const { idUsuario } = req.params;
-    await schema.validateAsync(parseInt(idUsuario));
+    const idUsuario = req.auth.id;
 
-    if (idUsuarioAuth !== parseInt(idUsuario)) {
-      const error = new Error("No tiene permisos para realizar esta accion");
-      error.status = 400;
-      throw error;
-    }
+    // await schema.validateAsync(parseInt(idUsuario));
 
     const articulos = await repositorioVentas.obtenerVentasPorIdUsuario(
       idUsuario
