@@ -13,7 +13,7 @@ nombre varchar(30) not null,
 apellidos varchar(60) not null,
 contrasenha varchar(255) not null,
 localidad varchar(40),
-foto varchar(60) null,
+foto varchar(60) default "defaultAvatar.jpg",
 email varchar(60) unique not null,
 fecha timestamp default current_timestamp
 );

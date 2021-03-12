@@ -83,6 +83,15 @@ async function obtenerVentasPorIdUsuario(id) {
   return articulos;
 }
 
+async function obtenerReservadosPorIdUsuario(id) {
+  const pool = await database();
+  const query =
+    "SELECT * FROM articulos WHERE articulos.id_usuario = ? AND articulos.id_usuario_comprador is not null";
+  const [articulos] = await pool.query(query, id);
+
+  return articulos;
+}
+
 module.exports = {
   agregarRespuestaVendedor,
   buscarValoracionesPorIdVendedor,
@@ -92,5 +101,6 @@ module.exports = {
   obtenerCantidadDeValoraciones,
   obtenerComprasPorIdUsuario,
   obtenerPromedioValoracion,
+  obtenerReservadosPorIdUsuario,
   obtenerVentasPorIdUsuario,
 };

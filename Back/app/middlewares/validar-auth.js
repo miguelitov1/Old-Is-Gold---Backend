@@ -16,8 +16,8 @@ function validarAuth(req, res, next) {
     const accessToken = authorization.split(" ")[1];
     const playload = jwt.verify(accessToken, JWT_SECRET);
 
-    const { id, nombre, nombreUsuario, localidad } = playload;
-    req.auth = { id, nombre, nombreUsuario, localidad };
+    const { id, nombre, nombreUsuario, localidad, foto } = playload;
+    req.auth = { id, nombre, nombreUsuario, localidad, foto };
 
     next();
   } catch (err) {

@@ -8,6 +8,7 @@ const agregarRespuestaVendedor = require("../controllers/ventas/responder_valora
 const mostrarValoracionesUsuario = require("../controllers/ventas/mostrar_valoraciones_usuario");
 const buscarComnprasPorUsuario = require("../controllers/ventas/buscar_compras_por_usuario");
 const buscarVentasPorUsuario = require("../controllers/ventas/buscar_ventas_por_usuario");
+const buscarReservadosPorUsuario = require("../controllers/ventas/buscar_reservados_por_usuario");
 
 const router = express.Router();
 
@@ -35,5 +36,10 @@ router
   .route("/ventas")
   .all(validarAuth)
   .get((req, res) => buscarVentasPorUsuario(req, res));
+
+router
+  .route("/reservados")
+  .all(validarAuth)
+  .get((req, res) => buscarReservadosPorUsuario(req, res));
 
 module.exports = router;
