@@ -53,7 +53,9 @@ async function insertarNuevoMensaje(req, res) {
       idArticulo,
       idEmisor,
       idReceptor,
-      mensaje
+      mensaje,
+      idComprador,
+      idVendedor
     );
 
     res.send(mensaje);

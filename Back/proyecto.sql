@@ -92,6 +92,8 @@ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 id_emisor INT UNSIGNED NOT NULL,
 id_receptor INT UNSIGNED NOT NULL,
 id_articulo INT UNSIGNED NOT NULL,
+id_comprador INT UNSIGNED NOT NULL,
+id_vendedor INT UNSIGNED NOT NULL,
 mensaje VARCHAR (255) NOT NULL,
 fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 constraint mensajeria_idarticulo_fk foreign key (id_articulo)

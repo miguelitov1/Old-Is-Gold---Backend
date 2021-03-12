@@ -13,19 +13,36 @@ AND id_articulo = ${idArticulo}`;
   return mensajes;
 }
 
-async function insertarNuevoMensaje(idArticulo, idEmisor, idReceptor, mensaje) {
+async function insertarNuevoMensaje(
+  idArticulo,
+  idEmisor,
+  idReceptor,
+  mensaje,
+  idComprador,
+  idVendedor
+) {
   const pool = await database();
-  const query = `INSERT INTO mensajeria (id_emisor, id_receptor, mensaje, id_articulo) VALUES (?, ?, ?, ?)`;
-  await pool.query(query, [idEmisor, idReceptor, mensaje, idArticulo]);
+  const query = `INSERT INTO mensajeria (id_emisor, id_receptor, mensaje, id_articulo, id_comprador, id_vendedor) VALUES (?, ?, ?, ?, ?, ?)`;
+  await pool.query(query, [
+    idEmisor,
+    idReceptor,
+    mensaje,
+    idArticulo,
+    idComprador,
+    idVendedor,
+  ]);
 
   return true;
 }
 
 async function mostrarChats(idUsuario) {
   const pool = await database();
-  const query = `SELECT articulos.titulo, articulos.id_usuario, articulos.foto1 FROM articulos
+  const query = `SELECT articulos.titulo, articulos.id_usuario, articulos.foto1, 
+  mensajeria.id, mensajeria.id_emisor, mensajeria.id_receptor, mensajeria.mensaje, mensajeria.fecha, mensajeria.id_comprador, 
+  mensajeria.id_vendedor, mensajeria.id_articulo
+  FROM articulos
   JOIN mensajeria ON articulos.id = mensajeria.id_articulo
-  WHERE mensajeria.id_emisor = ${idUsuario} OR mensajeria.id_receptor = ${idUsuario} GROUP BY articulos.id`;
+  WHERE mensajeria.id_emisor = ${idUsuario} OR mensajeria.id_receptor = ${idUsuario} ORDER BY mensajeria.fecha DESC`;
   const [chats] = await pool.query(query);
 
   return chats;
