@@ -58,7 +58,14 @@ async function insertarNuevoMensaje(req, res) {
       idVendedor
     );
 
-    res.send(mensaje);
+    res.send({
+      idArticulo,
+      idEmisor,
+      idReceptor,
+      mensaje,
+      idComprador,
+      idVendedor,
+    });
   } catch (err) {
     crear_error_jason(err, res);
   }

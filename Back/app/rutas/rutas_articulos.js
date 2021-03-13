@@ -25,7 +25,7 @@ router
   .get((req, res) => buscarArticulosPorCategoria(req, res));
 router
   .route("/resultado/busqueda")
-  .get((req, res) => verArticulosPorPalabrasClaves(req, res));
+  .post((req, res) => verArticulosPorPalabrasClaves(req, res));
 
 //Privadas
 router

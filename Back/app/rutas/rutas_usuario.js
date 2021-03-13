@@ -8,6 +8,7 @@ const actualizarUsuario = require("../controllers/usuario/actualizar_usuario");
 const borrarUsuarioPorId = require("../controllers/usuario/borrar_usuario");
 const buscarArticulosPorIdUsuario = require("../controllers/usuario/buscar_articulos_de_usuario");
 const buscarUsuarioPorId = require("../controllers/usuario/obtener_perfil_usuario_por_id");
+const buscarUsuarioPorIdSinRegistro = require("../controllers/usuario/obtener_perfil_usuario_por_id_sin_registro");
 const registrarUsuario = require("../controllers/usuario/registrar_usuario");
 const iniciarSesionUsuario = require("../controllers/usuario/login_usuario");
 const subirImagenDePerfil = require("../controllers/usuario/subir_imagen_perfil");
@@ -21,6 +22,9 @@ router.route("/login").post((req, res) => iniciarSesionUsuario(req, res));
 router
   .route("/recuperarContrasenha")
   .post((req, res) => recuperarContrasenha(req, res));
+router
+  .route("/usuarioSinRegistro/:idUsuario")
+  .get((req, res) => buscarUsuarioPorIdSinRegistro(req, res));
 
 //Privadas
 router

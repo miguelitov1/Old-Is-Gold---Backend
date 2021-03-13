@@ -17,7 +17,7 @@ async function verArticulosPorPalabrasClaves(req, res) {
       return string;
     }, "");
     stringBusqueda = stringBusqueda.slice(0, -16);
-    console.log(stringBusqueda);
+
     const articulos = await repositorioArticulos.verArticulosPorPalabrasClaves(
       stringBusqueda
     );

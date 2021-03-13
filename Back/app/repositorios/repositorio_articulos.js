@@ -31,7 +31,8 @@ async function borrarReservaArticuloPorId(idArticulo) {
 
 async function buscarArticuloPorId(id) {
   const pool = await database();
-  const query = "SELECT * FROM articulos WHERE id = ?";
+  const query = `SELECT id, id_usuario, id_categoria, titulo, descripcion, localizacion, precio, confirmacionVenta, 
+  DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, id_usuario_comprador, nro_visitas, foto1, foto2, foto3, foto4, foto5 FROM articulos WHERE id = ?`;
   const [articulo] = await pool.query(query, id);
   return articulo[0];
 }

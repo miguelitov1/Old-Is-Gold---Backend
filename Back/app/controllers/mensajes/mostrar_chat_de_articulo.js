@@ -46,12 +46,6 @@ async function mostrarChatDeArticulo(req, res) {
       idVendedor
     );
 
-    if (!mensajes[0]) {
-      const error = new Error("No hay mensajes para mostrar");
-      error.status = 400;
-      throw error;
-    }
-
     res.send(mensajes);
   } catch (err) {
     crear_error_jason(err, res);

@@ -12,6 +12,12 @@ const buscarReservadosPorUsuario = require("../controllers/ventas/buscar_reserva
 
 const router = express.Router();
 
+//PUBLICAS
+router
+  .route("/verValoraciones/:idUsuario")
+  .get((req, res) => mostrarValoracionesUsuario(req, res));
+
+//PRIVADAS
 router
   .route("/valoracion/:idArticulo")
   .all(validarAuth)
@@ -21,11 +27,6 @@ router
   .route("/respuesta/:idArticulo")
   .all(validarAuth)
   .put((req, res) => agregarRespuestaVendedor(req, res));
-
-router
-  .route("/verValoraciones/:idUsuario")
-  .all(validarAuth)
-  .get((req, res) => mostrarValoracionesUsuario(req, res));
 
 router
   .route("/compras")

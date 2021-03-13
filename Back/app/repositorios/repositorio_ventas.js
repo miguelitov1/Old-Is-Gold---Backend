@@ -86,7 +86,7 @@ async function obtenerVentasPorIdUsuario(id) {
 async function obtenerReservadosPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE articulos.id_usuario = ? AND articulos.id_usuario_comprador is not null AND articulo.confirmacionVenta is not 1";
+    "SELECT * FROM articulos WHERE id_usuario = ? AND id_usuario_comprador IS NOT NULL AND confirmacionVenta = 0";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
