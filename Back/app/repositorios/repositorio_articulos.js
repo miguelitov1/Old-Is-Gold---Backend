@@ -48,7 +48,7 @@ async function buscarArticulosPorCategoria(idCategoria) {
 async function buscarArticulosPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario = ? AND ORDER BY fecha DESC";
+    "SELECT * FROM articulos WHERE id_usuario = ? AND confirmacionVenta IS NULL ORDER BY fecha DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;

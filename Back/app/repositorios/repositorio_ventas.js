@@ -13,7 +13,7 @@ async function agregarRespuestaVendedor(idArticulo, idComprador, comentario) {
 async function buscarValoracionesPorIdVendedor(idVendedor) {
   const pool = await database();
   const query =
-    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ? ORDER BY fecha DESC";
+    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ? ORDER BY compras.fecha DESC";
   const [valoraciones] = await pool.query(query, idVendedor);
 
   return valoraciones;
