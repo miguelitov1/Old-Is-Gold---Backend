@@ -29,20 +29,17 @@ async function borrarReservaArticuloPorId(req, res) {
       articulo.id_usuario_comprador
     );
 
-    const { anularReserva } = req.body;
-
-    if (anularReserva === 1 && articulo.id_usuario === idUsuario) {
+    if (articulo.id_usuario === idUsuario) {
       await repositorioArticulos.borrarReservaArticuloPorId(idArticulo);
       await enviarEmailDeCancelacionReserva(
         comprador.nombre,
         comprador.email,
         articulo.titulo
       );
-      res
-        .status(200)
-        .send(
-          "Se ha anulado la reserva y se le ha notificado al usuario sobre la cancelacion de su reserva"
-        );
+      res.status(200).send({
+        respuesta:
+          "Se ha anulado la reserva y se le ha notificado al usuario sobre la cancelacion de su reserva",
+      });
     } else if (
       anularReserva === 1 &&
       articulo.id_usuario_comprador === idUsuario

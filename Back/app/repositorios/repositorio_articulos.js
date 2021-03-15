@@ -39,7 +39,7 @@ async function buscarArticuloPorId(id) {
 
 async function buscarArticulosPorCategoria(idCategoria) {
   const pool = await database();
-  const query = `SELECT * FROM articulos WHERE confirmacionVenta = 0 AND id_categoria = ?`;
+  const query = `SELECT * FROM articulos WHERE confirmacionVenta IS NULL AND id_categoria = ? ORDER BY fecha DESC`;
   const [articulos] = await pool.query(query, idCategoria);
 
   return articulos;
@@ -48,7 +48,7 @@ async function buscarArticulosPorCategoria(idCategoria) {
 async function buscarArticulosPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario = ? AND confirmacionVenta = 0";
+    "SELECT * FROM articulos WHERE id_usuario = ? AND confirmacionVenta IS NULL ORDER BY fecha DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -59,7 +59,8 @@ async function confirmarVentaArticuloPorId(idArticulo, idComprador) {
   const query1 =
     "INSERT INTO compras (id_articulo, id_comprador) VALUES (?, ?)";
   const [created] = await pool.query(query1, [idArticulo, idComprador]);
-  const query2 = "UPDATE articulos SET confirmacionVenta = 1 WHERE id = ?";
+  const query2 =
+    "UPDATE articulos SET confirmacionVenta = current_timestamp  WHERE id = ?";
   await pool.query(query2, [idArticulo]);
 
   return true;
@@ -132,7 +133,7 @@ async function reservarArticuloPorId(idArticulo, idComprador) {
 
 async function verArticulosPorPalabrasClaves(stringBusqueda) {
   const pool = await database();
-  const query = `SELECT * FROM articulos WHERE titulo LIKE ${stringBusqueda} AND confirmacionVenta = 0`;
+  const query = `SELECT * FROM articulos WHERE confirmacionVenta IS NULL AND titulo LIKE ${stringBusqueda} ORDER BY fecha DESC`;
   const [articulos] = await pool.query(query);
 
   return articulos;
@@ -140,7 +141,8 @@ async function verArticulosPorPalabrasClaves(stringBusqueda) {
 
 async function verTodosLosArticulos() {
   const pool = await database();
-  const query = "SELECT * FROM articulos WHERE confirmacionVenta = 0";
+  const query =
+    "SELECT * FROM articulos WHERE confirmacionVenta IS NULL ORDER BY fecha DESC";
   const [articulos] = await pool.query(query);
 
   return articulos;

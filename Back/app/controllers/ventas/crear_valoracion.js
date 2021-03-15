@@ -29,6 +29,12 @@ async function crearValoracion(req, res) {
       throw error;
     }
 
+    if (compra.valoracion) {
+      const error = new Error("Ya se ha valorado este articulo");
+      error.status = 400;
+      throw error;
+    }
+
     if (compra.id_comprador !== idComprador) {
       const error = new Error("No tienes permiso para realizar esta acción");
       error.status = 400;

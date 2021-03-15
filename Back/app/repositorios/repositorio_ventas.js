@@ -13,7 +13,7 @@ async function agregarRespuestaVendedor(idArticulo, idComprador, comentario) {
 async function buscarValoracionesPorIdVendedor(idVendedor) {
   const pool = await database();
   const query =
-    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ?";
+    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ? ORDER BY compras.fecha DESC";
   const [valoraciones] = await pool.query(query, idVendedor);
 
   return valoraciones;
@@ -42,9 +42,11 @@ async function crearValoracion(
   comentario
 ) {
   const pool = await database();
-  console.log(idArticulo, idComprador, valoracion, comentario);
   const query = `UPDATE compras SET valoracion = ?, comentarioValoracion = ? WHERE id_articulo = ${idArticulo} AND id_comprador = ${idComprador}`;
   const [created] = await pool.query(query, [valoracion, comentario]);
+
+  const query2 = `UPDATE articulos SET valoracionSiNo = current_timestamp WHERE id = ${idArticulo}`;
+  await pool.query(query2);
 
   return created.insertId;
 }
@@ -60,7 +62,7 @@ async function obtenerCantidadDeValoraciones(idVendedor) {
 async function obtenerComprasPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE compras.id_comprador = ?";
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta IS NOT NULL ORDER BY confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -77,8 +79,17 @@ async function obtenerPromedioValoracion(idVendedor) {
 async function obtenerVentasPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE articulos.id_usuario = ? AND articulos.confirmacionVenta = 1";
+    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE articulos.id_usuario = ? AND articulos.confirmacionVenta IS NOT NULL ORDER BY articulos.confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
+
+  return articulos;
+}
+
+async function obtenerReservadosPorMi(idUsuario) {
+  const pool = await database();
+  const query =
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta IS NULL";
+  const [articulos] = await pool.query(query, idUsuario);
 
   return articulos;
 }
@@ -86,7 +97,7 @@ async function obtenerVentasPorIdUsuario(id) {
 async function obtenerReservadosPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario = ? AND id_usuario_comprador IS NOT NULL AND confirmacionVenta = 0";
+    "SELECT * FROM articulos WHERE id_usuario = ? AND id_usuario_comprador IS NOT NULL AND confirmacionVenta IS NULL ORDER BY confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -102,5 +113,6 @@ module.exports = {
   obtenerComprasPorIdUsuario,
   obtenerPromedioValoracion,
   obtenerReservadosPorIdUsuario,
+  obtenerReservadosPorMi,
   obtenerVentasPorIdUsuario,
 };

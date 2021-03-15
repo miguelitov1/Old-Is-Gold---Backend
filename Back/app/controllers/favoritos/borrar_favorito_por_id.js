@@ -21,7 +21,6 @@ async function borrarArticuloFavoritoPorId(req, res) {
       error.status = 400;
       throw error;
     }
-    console.log(favorito.id_usuario, id_usuario);
 
     if (favorito.id_usuario !== id_usuario) {
       const error = new Error("No tienes permisos para realizar esta acción");

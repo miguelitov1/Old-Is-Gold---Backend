@@ -49,7 +49,7 @@ async function insertarNuevoMensaje(req, res) {
     //   throw error;
     // }
 
-    await repositorioMensajes.insertarNuevoMensaje(
+    const newMessage = await repositorioMensajes.insertarNuevoMensaje(
       idArticulo,
       idEmisor,
       idReceptor,
@@ -58,14 +58,7 @@ async function insertarNuevoMensaje(req, res) {
       idVendedor
     );
 
-    res.send({
-      idArticulo,
-      idEmisor,
-      idReceptor,
-      mensaje,
-      idComprador,
-      idVendedor,
-    });
+    res.send(newMessage);
   } catch (err) {
     crear_error_jason(err, res);
   }

@@ -18,6 +18,8 @@ async function buscarMensajesPorArticulo(idArticulo, idVendedor, idComprador) {
   AND id_articulo = ${idArticulo}`;
   const [mensajes] = await pool.query(query);
 
+  console.log(mensajes);
+
   return mensajes;
 }
 
@@ -31,7 +33,7 @@ async function insertarNuevoMensaje(
 ) {
   const pool = await database();
   const query = `INSERT INTO mensajeria (id_emisor, id_receptor, mensaje, id_articulo, id_comprador, id_vendedor) VALUES (?, ?, ?, ?, ?, ?)`;
-  await pool.query(query, [
+  const [result] = await pool.query(query, [
     idEmisor,
     idReceptor,
     mensaje,
@@ -40,7 +42,13 @@ async function insertarNuevoMensaje(
     idVendedor,
   ]);
 
-  return true;
+  return {
+    id_emisor: idEmisor,
+    id: result.insertId,
+    id_receptor: idReceptor,
+    fecha: new Date().toLocaleString(),
+    mensaje: mensaje,
+  };
 }
 
 async function mostrarChats(idUsuario) {
