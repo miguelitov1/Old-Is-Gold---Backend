@@ -46,8 +46,7 @@ async function confirmarVentaArticuloPorId(req, res) {
       articulo.id_usuario_comprador
     );
 
-    const { confirmarVenta } = req.body;
-    if (confirmarVenta === 1 && articulo.id_usuario === idVendedor) {
+    if (articulo.id_usuario === idVendedor) {
       repositorioArticulos.confirmarVentaArticuloPorId(
         articulo.id,
         comprador.id
@@ -59,7 +58,10 @@ async function confirmarVentaArticuloPorId(req, res) {
       );
       res
         .status(200)
-        .send("Se ha confirmado la venta y se le ha notificado al comprador.");
+        .send({
+          respuesta:
+            "Se ha confirmado la venta y se le ha notificado al comprador.",
+        });
     }
   } catch (err) {
     crearErrorJson(err, res);

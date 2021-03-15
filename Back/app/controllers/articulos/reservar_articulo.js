@@ -29,10 +29,7 @@ async function reservarArticuloPorId(req, res) {
       articulo.id_usuario
     );
 
-    const { reservar } = req.body;
-
     if (
-      reservar === 1 &&
       articulo.id_usuario_comprador === null &&
       articulo.id_usuario !== idComprador
     ) {
@@ -43,9 +40,10 @@ async function reservarArticuloPorId(req, res) {
         articulo.titulo,
         idArticulo
       );
-      res
-        .status(200)
-        .send("El articulo se ha reservado y se le ha notificado al vendedor.");
+      res.status(200).send({
+        respuesta:
+          "El articulo se ha reservado y se le ha notificado al vendedor.",
+      });
     } else if (articulo.id_usuario_comprador !== null) {
       const error = new Error("El artículo ya se encuentra reservado");
       error.status = 400;

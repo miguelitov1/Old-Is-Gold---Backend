@@ -13,7 +13,7 @@ async function agregarRespuestaVendedor(idArticulo, idComprador, comentario) {
 async function buscarValoracionesPorIdVendedor(idVendedor) {
   const pool = await database();
   const query =
-    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ?";
+    "SELECT * FROM compras JOIN articulos ON compras.id_articulo = articulos.id WHERE articulos.id_usuario = ? ORDER BY fecha DESC";
   const [valoraciones] = await pool.query(query, idVendedor);
 
   return valoraciones;
@@ -42,9 +42,11 @@ async function crearValoracion(
   comentario
 ) {
   const pool = await database();
-  console.log(idArticulo, idComprador, valoracion, comentario);
   const query = `UPDATE compras SET valoracion = ?, comentarioValoracion = ? WHERE id_articulo = ${idArticulo} AND id_comprador = ${idComprador}`;
   const [created] = await pool.query(query, [valoracion, comentario]);
+
+  const query2 = `UPDATE articulos SET valoracionSiNo = current_timestamp WHERE id = ${idArticulo}`;
+  await pool.query(query2);
 
   return created.insertId;
 }
@@ -60,7 +62,7 @@ async function obtenerCantidadDeValoraciones(idVendedor) {
 async function obtenerComprasPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE compras.id_comprador = ?";
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta = 1";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -79,6 +81,15 @@ async function obtenerVentasPorIdUsuario(id) {
   const query =
     "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE articulos.id_usuario = ? AND articulos.confirmacionVenta = 1";
   const [articulos] = await pool.query(query, id);
+
+  return articulos;
+}
+
+async function obtenerReservadosPorMi(idUsuario) {
+  const pool = await database();
+  const query =
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta = 0";
+  const [articulos] = await pool.query(query, idUsuario);
 
   return articulos;
 }
@@ -102,5 +113,6 @@ module.exports = {
   obtenerComprasPorIdUsuario,
   obtenerPromedioValoracion,
   obtenerReservadosPorIdUsuario,
+  obtenerReservadosPorMi,
   obtenerVentasPorIdUsuario,
 };

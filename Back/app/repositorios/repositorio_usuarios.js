@@ -82,7 +82,7 @@ async function buscarCodigoVerificacionPorIdUsuario(idUsuario) {
   const query =
     "SELECT codigo_verificacion FROM activacion_usuarios WHERE id_usuario = ? AND fecha_verificacion IS NOT NULL";
   const codigoActivacion = await pool.query(query, idUsuario);
-  console.log(codigoActivacion);
+
   return codigoActivacion;
 }
 
