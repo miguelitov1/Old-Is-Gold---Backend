@@ -33,13 +33,13 @@ async function buscarArticuloPorId(id) {
   const pool = await database();
   const query = `SELECT id, id_usuario, id_categoria, titulo, descripcion, localizacion, precio, confirmacionVenta, 
   DATE_FORMAT(fecha, '%d/%m/%Y') AS fecha, id_usuario_comprador, nro_visitas, foto1, foto2, foto3, foto4, foto5 FROM articulos WHERE id = ?`;
-  const [articulo] = await pool.query(query, id); /////////////////////////////////////////////////////
+  const [articulo] = await pool.query(query, id);
   return articulo[0];
 }
 
 async function buscarArticulosPorCategoria(idCategoria) {
   const pool = await database();
-  const query = `SELECT * FROM articulos WHERE id_categoria = ? ORDER BY fecha DESC`; ///////////////////////////////////////
+  const query = `SELECT * FROM articulos WHERE confirmacionVenta IS NULL AND id_categoria = ? ORDER BY fecha DESC`;
   const [articulos] = await pool.query(query, idCategoria);
 
   return articulos;
@@ -133,7 +133,7 @@ async function reservarArticuloPorId(idArticulo, idComprador) {
 
 async function verArticulosPorPalabrasClaves(stringBusqueda) {
   const pool = await database();
-  const query = `SELECT * FROM articulos WHERE titulo LIKE ${stringBusqueda} ORDER BY fecha DESC`; ///////////////////////
+  const query = `SELECT * FROM articulos WHERE confirmacionVenta IS NULL AND titulo LIKE ${stringBusqueda} ORDER BY fecha DESC`;
   const [articulos] = await pool.query(query);
 
   return articulos;
@@ -141,7 +141,8 @@ async function verArticulosPorPalabrasClaves(stringBusqueda) {
 
 async function verTodosLosArticulos() {
   const pool = await database();
-  const query = "SELECT * FROM articulos ORDER BY fecha DESC"; /////////////////
+  const query =
+    "SELECT * FROM articulos WHERE confirmacionVenta IS NULL ORDER BY fecha DESC";
   const [articulos] = await pool.query(query);
 
   return articulos;

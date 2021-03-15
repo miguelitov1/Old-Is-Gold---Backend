@@ -62,7 +62,7 @@ async function obtenerCantidadDeValoraciones(idVendedor) {
 async function obtenerComprasPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta = 1";
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta IS NOT NULL ORDER BY confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -79,7 +79,7 @@ async function obtenerPromedioValoracion(idVendedor) {
 async function obtenerVentasPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE articulos.id_usuario = ? AND articulos.confirmacionVenta = 1";
+    "SELECT * FROM articulos JOIN compras ON articulos.id=compras.id_articulo WHERE articulos.id_usuario = ? AND articulos.confirmacionVenta IS NOT NULL ORDER BY articulos.confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
@@ -88,7 +88,7 @@ async function obtenerVentasPorIdUsuario(id) {
 async function obtenerReservadosPorMi(idUsuario) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta = 0";
+    "SELECT * FROM articulos WHERE id_usuario_comprador = ? AND confirmacionVenta IS NULL";
   const [articulos] = await pool.query(query, idUsuario);
 
   return articulos;
@@ -97,7 +97,7 @@ async function obtenerReservadosPorMi(idUsuario) {
 async function obtenerReservadosPorIdUsuario(id) {
   const pool = await database();
   const query =
-    "SELECT * FROM articulos WHERE id_usuario = ? AND id_usuario_comprador IS NOT NULL AND confirmacionVenta = 0";
+    "SELECT * FROM articulos WHERE id_usuario = ? AND id_usuario_comprador IS NOT NULL AND confirmacionVenta IS NULL ORDER BY confirmacionVenta DESC";
   const [articulos] = await pool.query(query, id);
 
   return articulos;
