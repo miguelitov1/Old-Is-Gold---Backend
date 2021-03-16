@@ -18,8 +18,6 @@ async function buscarMensajesPorArticulo(idArticulo, idVendedor, idComprador) {
   AND id_articulo = ${idArticulo}`;
   const [mensajes] = await pool.query(query);
 
-  console.log(mensajes);
-
   return mensajes;
 }
 

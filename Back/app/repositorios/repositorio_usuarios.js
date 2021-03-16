@@ -40,7 +40,7 @@ async function actualizarUsuarioPorId(data) {
     id,
   ]);
 
-  return true;
+  return [{ nombre, apellidos, nombreUsuario, email, localidad, id }];
 }
 
 async function agregarCodigoDeVerificacion(idUsuario, codigo) {
@@ -82,7 +82,6 @@ async function buscarCodigoVerificacionPorIdUsuario(idUsuario) {
   const query =
     "SELECT codigo_verificacion FROM activacion_usuarios WHERE id_usuario = ? AND fecha_verificacion IS NOT NULL";
   const codigoActivacion = await pool.query(query, idUsuario);
-
   return codigoActivacion;
 }
 
@@ -148,6 +147,22 @@ async function crearUsuario(
   return created.insertId;
 }
 
+async function obtenerComprasUsuario(idUsuario) {
+  const pool = await database();
+  const query = `SELECT id_comprador, COUNT(id_comprador) AS cantidad_compras FROM compras 
+  WHERE id_comprador = ${idUsuario} GROUP BY id_comprador = ${idUsuario}`;
+  const [ventas] = await pool.query(query);
+  return ventas;
+}
+
+async function obtenerVentasUsuario(idUsuario) {
+  const pool = await database();
+  const query = `SELECT id_usuario, COUNT(id_usuario) AS cantidad_ventas FROM articulos 
+  WHERE id_usuario = ${idUsuario} AND confirmacionVenta IS NOT NULL GROUP BY id_usuario = ${idUsuario}`;
+  const [ventas] = await pool.query(query);
+  return ventas;
+}
+
 async function subirImagenDePerfilDeUsuario(idUsuario, imagen) {
   const pool = await database();
   const updateQuery = "UPDATE usuarios SET foto = ? WHERE id = ?";
@@ -168,5 +183,7 @@ module.exports = {
   buscarUsuarioPorId,
   buscarUsuarioPorNombreUsuario,
   crearUsuario,
+  obtenerComprasUsuario,
+  obtenerVentasUsuario,
   subirImagenDePerfilDeUsuario,
 };

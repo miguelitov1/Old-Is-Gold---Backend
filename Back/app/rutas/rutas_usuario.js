@@ -12,6 +12,8 @@ const buscarUsuarioPorIdSinRegistro = require("../controllers/usuario/obtener_pe
 const registrarUsuario = require("../controllers/usuario/registrar_usuario");
 const iniciarSesionUsuario = require("../controllers/usuario/login_usuario");
 const subirImagenDePerfil = require("../controllers/usuario/subir_imagen_perfil");
+const obtenerVentasUsuario = require("../controllers/usuario/obtener_ventas_usuario");
+const obtenerComprasUsuario = require("../controllers/usuario/obtener_compras_usuario");
 
 const router = express.Router();
 
@@ -25,6 +27,12 @@ router
 router
   .route("/usuarioSinRegistro/:idUsuario")
   .get((req, res) => buscarUsuarioPorIdSinRegistro(req, res));
+router
+  .route("/ventas/:idUsuario")
+  .get((req, res) => obtenerVentasUsuario(req, res));
+router
+  .route("/compras/:idUsuario")
+  .get((req, res) => obtenerComprasUsuario(req, res));
 
 //Privadas
 router

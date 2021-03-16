@@ -62,17 +62,17 @@ async function actualizarUsuario(req, res) {
       actualizarContrasenha = passwordHash;
     }
 
-    if (email != usuarioPorId.email) {
-      const codigoDeVerificacion = cryptoRandomString({ length: 64 });
-      await enviarEmailDeRegistro(nombre, email, codigoDeVerificacion);
-      await repositorioUsuarios.borrarViejoCodigoDeVerificacion(idUsuario);
-      await repositorioUsuarios.agregarCodigoDeVerificacion(
-        idUsuario,
-        codigoDeVerificacion
-      );
-    }
+    // if (email !== usuarioPorId.email) {
+    //   const codigoDeVerificacion = cryptoRandomString({ length: 64 });
+    //   await enviarEmailDeRegistro(nombre, email, codigoDeVerificacion);
+    //   await repositorioUsuarios.borrarViejoCodigoDeVerificacion(idUsuario);
+    //   await repositorioUsuarios.agregarCodigoDeVerificacion(
+    //     idUsuario,
+    //     codigoDeVerificacion
+    //   );
+    // }
 
-    await repositorioUsuarios.actualizarUsuarioPorId({
+    const response = await repositorioUsuarios.actualizarUsuarioPorId({
       idUsuario,
       nombre,
       apellidos,
@@ -82,7 +82,7 @@ async function actualizarUsuario(req, res) {
       localidad,
     });
 
-    res.send({ idUsuario, nombre, apellidos, email, nombreUsuario, localidad });
+    res.send(response);
   } catch (err) {
     crearErrorJson(err, res);
   }
