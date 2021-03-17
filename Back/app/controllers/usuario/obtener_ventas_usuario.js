@@ -12,7 +12,6 @@ async function obtenerVentasUsuario(req, res) {
     await schema.validateAsync(parseInt(idUsuario));
 
     const ventas = await repositorioUsuarios.obtenerVentasUsuario(idUsuario);
-    console.log(ventas);
 
     // if (!ventas) {
     //   const error = new Error("No se han registrado ventas en este usuario");

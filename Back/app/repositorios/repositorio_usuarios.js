@@ -18,18 +18,17 @@ async function activarUsuario(code) {
 
 async function actualizarUsuarioPorId(data) {
   const {
-    id,
+    idUsuario,
     nombre,
     apellidos,
     nombreUsuario,
     email,
     contrasenha,
     localidad,
+    foto,
   } = data;
   const pool = await database();
-  const updateQuery = `UPDATE usuarios
-  SET nombre = ?, apellidos = ?, nombreUsuario = ?, email = ?, contrasenha = ?, localidad = ?
-  WHERE id = ?`;
+  const updateQuery = `UPDATE usuarios SET nombre = ?, apellidos = ?, nombreUsuario = ?, email = ?, contrasenha = ?, localidad = ?,foto=? WHERE id = ?`;
   await pool.query(updateQuery, [
     nombre,
     apellidos,
@@ -37,10 +36,11 @@ async function actualizarUsuarioPorId(data) {
     email,
     contrasenha,
     localidad,
-    id,
+    foto,
+    idUsuario,
   ]);
 
-  return [{ nombre, apellidos, nombreUsuario, email, localidad, id }];
+  return true;
 }
 
 async function agregarCodigoDeVerificacion(idUsuario, codigo) {
