@@ -113,7 +113,7 @@ async function actualizarUsuario(req, res) {
     });
 
     res.send({
-      idUsuario,
+      id: idUsuario,
       nombre,
       apellidos,
       email,
