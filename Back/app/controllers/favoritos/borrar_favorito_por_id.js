@@ -28,7 +28,10 @@ async function borrarArticuloFavoritoPorId(req, res) {
       throw error;
     }
 
-    await repositorioFavoritos.borrarArticuloFavoritoPorId(idArticulo);
+    await repositorioFavoritos.borrarArticuloFavoritoPorId(
+      idArticulo,
+      id_usuario
+    );
 
     res.send({ message: `Favorito id:${idArticulo} borrado` });
   } catch (err) {

@@ -6,6 +6,12 @@ const cryptoRandomString = require("crypto-random-string");
 const repositorioUsuarios = require("../../repositorios/repositorio_usuarios");
 const { enviarEmailDeRegistro } = require("../../email/sendgrid");
 const crearErrorJson = require("../errores/crear_error_json");
+const uuid = require("uuid");
+
+const fileUpload = require("express-fileupload");
+const path = require("path");
+const fs = require("fs").promises;
+const subirImagenDePerfil = require("./subir_imagen_perfil");
 
 const schema = Joi.object().keys({
   nombre: Joi.string().alphanum().max(30).required(),
@@ -26,7 +32,7 @@ async function actualizarUsuario(req, res) {
   try {
     const idUsuario = req.auth.id;
 
-    await schema.validateAsync(req.body);
+    await schema.validateAsync(req.body, { allowUnknown: true });
     const {
       nombre,
       apellidos,
@@ -37,7 +43,9 @@ async function actualizarUsuario(req, res) {
       localidad,
     } = req.body;
 
-    const usuarioPorId = repositorioUsuarios.buscarUsuarioPorId(idUsuario);
+    const usuarioPorId = await repositorioUsuarios.buscarUsuarioPorId(
+      idUsuario
+    );
     const usuarioEmail = await repositorioUsuarios.buscarUsuarioPorEmail(email);
     const usuarioNombreUsuario = await repositorioUsuarios.buscarUsuarioPorNombreUsuario(
       nombreUsuario
@@ -57,7 +65,8 @@ async function actualizarUsuario(req, res) {
 
     let actualizarContrasenha = usuarioPorId.contrasenha;
     if (contrasenha) {
-      await schemaPassword.validateAsync({ contrasenha, repetirContrasenha });
+      // await schemaPassword.validateAsync({ contrasenha, repetirContrasenha });
+      await schemaPassword.validateAsync({ contrasenha });
       const passwordHash = await bcrypt.hash(contrasenha, 12);
       actualizarContrasenha = passwordHash;
     }
@@ -72,6 +81,26 @@ async function actualizarUsuario(req, res) {
       );
     }
 
+    let foto = usuarioPorId.foto;
+
+    if (req.files && req.files.foto) {
+      const { PATH_USER_IMAGE } = process.env;
+      const pathProfileImageFolder = `${__dirname}/../../../public/${PATH_USER_IMAGE}`;
+
+      if (foto) {
+        await fs.unlink(`${pathProfileImageFolder}/${foto}`);
+      }
+
+      const extension = path.extname(req.files.foto.name);
+
+      foto = `${uuid.v4()}${extension}`;
+
+      const pathImage = `${pathProfileImageFolder}/${foto}`;
+      // Movemos la image a la ruta final /public/images/profiles/id.png
+
+      await req.files.foto.mv(pathImage);
+    }
+
     await repositorioUsuarios.actualizarUsuarioPorId({
       idUsuario,
       nombre,
@@ -80,10 +109,20 @@ async function actualizarUsuario(req, res) {
       contrasenha: actualizarContrasenha,
       nombreUsuario,
       localidad,
+      foto,
     });
 
-    res.send({ idUsuario, nombre, apellidos, email, nombreUsuario, localidad });
+    res.send({
+      id: idUsuario,
+      nombre,
+      apellidos,
+      email,
+      nombreUsuario,
+      localidad,
+      foto,
+    });
   } catch (err) {
+    console.log(err);
     crearErrorJson(err, res);
   }
 }

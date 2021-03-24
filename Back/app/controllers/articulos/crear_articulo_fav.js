@@ -14,17 +14,20 @@ async function crearArticuloFav(req, res) {
 
     const { idArticulo } = req.params;
 
-    await schema.validateAsync(parseInt(idArticulo));
+    await schema.validateAsync(idArticulo);
+    const articulo = await repositorioArticulos.buscarArticuloPorId(
+      parseInt(idArticulo)
+    );
 
-    const { agregarFav } = req.body;
-
-    if (agregarFav === 1) {
-      await repositorioArticulos.crearArticuloFav(
-        parseInt(idArticulo),
-        id_usuario
-      );
-      res.status(201).send("El articulo se ha agregado a sus favoritos!");
+    if (!articulo) {
+      const error = new Error("Articulo no encontrado");
+      error.status = 400;
+      throw error;
     }
+
+    await repositorioArticulos.crearArticuloFav(idArticulo, id_usuario);
+
+    res.status(201).send("El articulo se ha agregado a sus favoritos!");
   } catch (err) {
     crearErrorJson(err, res);
   }
